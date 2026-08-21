@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>词汇本 · Sổ Tay HSK6</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;600;700;900&family=Be+Vietnam+Pro:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#EAE2CC;
+  --paper-2:#E1D6B8;
+  --paper-3:#D8CBA6;
+  --ink:#221C15;
+  --ink-soft:#5A5245;
+  --ink-faint:#8A8271;
+  --seal:#AF2530;
+  --seal-dark:#7F1B22;
+  --seal-glow:rgba(175,37,48,0.16);
+  --jade:#4F7A68;
+  --jade-dark:#3A5C4E;
+  --gold:#9C6B2E;
+  --gold-soft:#EFDDB8;
+  --line: rgba(34,28,21,0.14);
+  --line-strong: rgba(34,28,21,0.28);
+  --shadow: 0 8px 24px rgba(34,28,21,0.10), 0 2px 6px rgba(34,28,21,0.08);
+  --radius: 3px;
+}
+
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background:
+    radial-gradient(ellipse 1200px 600px at 15% -10%, rgba(255,255,255,0.35), transparent 60%),
+    var(--paper);
+  background-attachment: fixed;
+  color:var(--ink);
+  font-family:'Be Vietnam Pro', -apple-system, sans-serif;
+  min-height:100vh;
+  position:relative;
+}
+body::before{
+  content:"";
+  position:fixed; inset:0;
+  pointer-events:none;
+  opacity:0.5;
+  background-image:
+    repeating-linear-gradient(0deg, rgba(34,28,21,0.015) 0px, rgba(34,28,21,0.015) 1px, transparent 1px, transparent 3px);
+  z-index:0;
+}
+.app{position:relative; z-index:1; max-width:920px; margin:0 auto; padding:0 18px 64px;}
+
+/* ---------- Header ---------- */
+header.top{
+  padding:34px 4px 18px;
+  display:flex; align-items:flex-end; justify-content:space-between; gap:16px;
+  flex-wrap:wrap;
+  border-bottom:1px solid var(--line-strong);
+  margin-bottom:22px;
+}
+.brand{display:flex; align-items:center; gap:14px;}
+.brand-seal{
+  width:52px;height:52px; flex:none;
+  background:var(--seal);
+  color:#F4E9D8;
+  border-radius:6px;
+  display:flex; align-items:center; justify-content:center;
+  font-family:'Noto Serif SC', serif; font-weight:900; font-size:24px;
+  box-shadow: var(--shadow);
+  transform:rotate(-3deg);
+  position:relative;
+}
+.brand-seal::after{
+  content:"";position:absolute; inset:3px;
+  border:1px solid rgba(244,233,216,0.55);
+  border-radius:3px;
+}
+.brand-text h1{
+  margin:0; font-family:'Noto Serif SC', serif; font-weight:700;
+  font-size:26px; letter-spacing:0.5px; line-height:1.1;
+}
+.brand-text p{margin:4px 0 0; font-size:12.5px; color:var(--ink-soft); letter-spacing:0.3px;}
+.progress-chip{
+  display:flex; align-items:center; gap:10px;
+  background:var(--paper-2);
+  border:1px solid var(--line-strong);
+  border-radius:999px;
+  padding:8px 16px 8px 8px;
+}
+.progress-chip .ring{
+  width:34px;height:34px; border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  background:conic-gradient(var(--seal) calc(var(--pct,0) * 1%), rgba(34,28,21,0.12) 0);
+  flex:none;
+}
+.progress-chip .ring-in{
+  width:26px;height:26px;border-radius:50%;background:var(--paper-2);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'JetBrains Mono',monospace; font-size:9px; font-weight:700; color:var(--seal-dark);
+}
+.progress-chip .plabel{font-size:12px; color:var(--ink-soft); line-height:1.3;}
+.progress-chip .plabel b{color:var(--ink); font-family:'JetBrains Mono',monospace; font-size:13px;}
+
+/* ---------- Tabs ---------- */
+nav.tabs{
+  display:flex; gap:6px; margin-bottom:26px; flex-wrap:wrap;
+}
+nav.tabs button{
+  font-family:'Be Vietnam Pro', sans-serif;
+  font-size:13.5px; font-weight:600;
+  color:var(--ink-soft);
+  background:transparent;
+  border:1px solid transparent;
+  padding:9px 16px;
+  border-radius:999px;
+  cursor:pointer;
+  display:flex; align-items:center; gap:8px;
+  transition:all .18s ease;
+}
+nav.tabs button .zh{font-family:'Noto Serif SC', serif; font-weight:700; font-size:14px;}
+nav.tabs button:hover{background:var(--paper-2); color:var(--ink);}
+nav.tabs button.active{
+  background:var(--ink); color:var(--paper);
+  border-color:var(--ink);
+}
+nav.tabs button.active .zh{color:var(--paper);}
+
+.panel{display:none; animation:fadein .3s ease;}
+.panel.active{display:block;}
+@keyframes fadein{from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:translateY(0);}}
+
+/* ---------- Study list ---------- */
+.toolbar{display:flex; gap:10px; margin-bottom:18px; flex-wrap:wrap; align-items:center;}
+.search-wrap{position:relative; flex:1; min-width:200px;}
+.search-wrap input{
+  width:100%; padding:11px 14px 11px 38px;
+  border:1px solid var(--line-strong); border-radius:var(--radius);
+  background:#F4EEDC; font-family:'Be Vietnam Pro',sans-serif; font-size:14px; color:var(--ink);
+  outline:none;
+}
+.search-wrap input:focus{border-color:var(--seal);}
+.search-wrap svg{position:absolute; left:12px; top:50%; transform:translateY(-50%); width:15px;height:15px; opacity:0.5;}
+.filter-group{display:flex; gap:6px;}
+.filter-group button{
+  font-size:12.5px; font-weight:600; padding:9px 13px; border-radius:var(--radius);
+  border:1px solid var(--line-strong); background:#F4EEDC; color:var(--ink-soft); cursor:pointer;
+}
+.filter-group button.active{background:var(--jade); border-color:var(--jade); color:#F4EEDC;}
+
+.word-list{display:flex; flex-direction:column; gap:8px;}
+.word-row{
+  background:#F4EEDC;
+  border:1px solid var(--line);
+  border-left:3px solid transparent;
+  border-radius:var(--radius);
+  padding:13px 16px;
+  display:flex; align-items:center; gap:16px;
+  cursor:pointer;
+  transition:border-color .15s ease, transform .1s ease;
+}
+.word-row:hover{border-left-color:var(--gold); transform:translateX(2px);}
+.word-row.mastered{border-left-color:var(--jade);}
+.word-row .hz{
+  font-family:'Noto Serif SC', serif; font-weight:700; font-size:22px; min-width:110px;
+}
+.word-row .py{font-family:'JetBrains Mono',monospace; font-size:12.5px; color:var(--gold); min-width:100px;}
+.word-row .mn{font-size:14px; color:var(--ink-soft); flex:1; line-height:1.4;}
+.word-row .cat-tag{font-size:10px; font-family:'JetBrains Mono',monospace; color:var(--ink-faint); border:1px solid var(--line-strong); padding:2px 6px; border-radius:3px; flex:none;}
+.word-row .mstar{flex:none; width:20px; height:20px; opacity:0.35;}
+.word-row.mastered .mstar{opacity:1;}
+.empty-note{padding:40px 10px; text-align:center; color:var(--ink-faint); font-size:14px;}
+
+/* ---------- Flashcards ---------- */
+.fc-controls{display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; flex-wrap:wrap; gap:12px;}
+.fc-deck-select{display:flex; gap:6px;}
+.fc-deck-select button{font-size:12.5px; font-weight:600; padding:8px 13px; border-radius:var(--radius); border:1px solid var(--line-strong); background:#F4EEDC; color:var(--ink-soft); cursor:pointer;}
+.fc-deck-select button.active{background:var(--ink); border-color:var(--ink); color:var(--paper);}
+.fc-count{font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--ink-soft);}
+
+.fc-stage{display:flex; flex-direction:column; align-items:center; gap:22px;}
+.fc-progress-bar{width:100%; max-width:460px; height:4px; background:var(--line-strong); border-radius:2px; overflow:hidden;}
+.fc-progress-bar i{display:block; height:100%; background:var(--seal); width:0%; transition:width .3s ease;}
+
+.card-scene{width:100%; max-width:460px; height:280px; perspective:1400px; position:relative;}
+.flashcard{
+  width:100%; height:100%; position:relative;
+  transform-style:preserve-3d;
+  transition:transform .5s cubic-bezier(.2,.8,.2,1);
+  cursor:pointer;
+}
+.flashcard.flipped{transform:rotateY(180deg);}
+.face{
+  position:absolute; inset:0; backface-visibility:hidden;
+  border-radius:8px; border:1px solid var(--line-strong);
+  background:#F4EEDC;
+  box-shadow: var(--shadow);
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  text-align:center; padding:24px;
+}
+.face.front .hz{font-family:'Noto Serif SC', serif; font-weight:700; font-size:56px; line-height:1;}
+.face.front .py{margin-top:14px; font-family:'JetBrains Mono',monospace; color:var(--gold); font-size:15px; letter-spacing:0.5px;}
+.face.front .hint{position:absolute; bottom:16px; font-size:11px; color:var(--ink-faint); letter-spacing:0.5px;}
+.face.back{transform:rotateY(180deg); background:var(--ink); color:var(--paper);}
+.face.back .py2{font-family:'JetBrains Mono',monospace; font-size:13px; color:var(--gold-soft); margin-bottom:10px;}
+.face.back .mn{font-size:19px; font-weight:600; line-height:1.4; max-width:340px;}
+.face.back .hz-small{font-family:'Noto Serif SC',serif; font-size:15px; opacity:0.6; margin-top:14px;}
+
+.seal-stamp{
+  position:absolute; top:14px; right:14px; width:58px; height:58px;
+  opacity:0; transform:scale(2) rotate(-18deg);
+  pointer-events:none;
+}
+.seal-stamp.show{animation:stampdown .5s cubic-bezier(.2,.9,.3,1.1) forwards;}
+@keyframes stampdown{
+  0%{opacity:0; transform:scale(2.4) rotate(-18deg);}
+  55%{opacity:1; transform:scale(0.92) rotate(-8deg);}
+  75%{transform:scale(1.06) rotate(-8deg);}
+  100%{opacity:1; transform:scale(1) rotate(-8deg);}
+}
+
+.fc-actions{display:flex; gap:12px; width:100%; max-width:460px;}
+.fc-actions button{
+  flex:1; padding:13px; border-radius:var(--radius); border:1px solid var(--line-strong);
+  font-family:'Be Vietnam Pro', sans-serif; font-weight:700; font-size:14px; cursor:pointer;
+  display:flex; align-items:center; justify-content:center; gap:8px;
+}
+.btn-forget{background:#F4EEDC; color:var(--ink-soft);}
+.btn-forget:hover{border-color:var(--ink-soft);}
+.btn-know{background:var(--jade); color:#F4EEDC; border-color:var(--jade);}
+.btn-know:hover{background:var(--jade-dark);}
+.fc-done{text-align:center; padding:50px 10px;}
+.fc-done .zh-big{font-family:'Noto Serif SC',serif; font-size:38px; font-weight:700; margin-bottom:8px;}
+.fc-done p{color:var(--ink-soft); margin:6px 0 22px;}
+.fc-done button{background:var(--seal); color:#F4E9D8; border:none; padding:12px 24px; border-radius:var(--radius); font-weight:700; cursor:pointer; font-size:14px;}
+
+/* ---------- Grammar ---------- */
+.grammar-list{display:flex; flex-direction:column; gap:14px;}
+.g-card{background:#F4EEDC; border:1px solid var(--line); border-radius:6px; padding:20px 22px;}
+.g-card .pattern{font-family:'Noto Serif SC',serif; font-weight:700; font-size:21px; color:var(--seal-dark); margin-bottom:2px;}
+.g-card .py{font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--gold); margin-bottom:10px;}
+.g-card .meaning{font-weight:600; margin-bottom:10px; font-size:14.5px;}
+.g-card .usage{font-size:13.5px; color:var(--ink-soft); line-height:1.6; border-top:1px dashed var(--line-strong); padding-top:10px;}
+
+/* ---------- Quiz ---------- */
+.quiz-setup{background:#F4EEDC; border:1px solid var(--line); border-radius:6px; padding:32px 28px; text-align:center;}
+.quiz-setup h2{font-family:'Noto Serif SC',serif; margin:0 0 6px; font-size:22px;}
+.quiz-setup p{color:var(--ink-soft); font-size:13.5px; margin:0 0 22px;}
+.quiz-len{display:flex; gap:10px; justify-content:center; margin-bottom:22px; flex-wrap:wrap;}
+.quiz-len button{padding:10px 20px; border-radius:999px; border:1px solid var(--line-strong); background:var(--paper); font-weight:700; cursor:pointer; font-family:'JetBrains Mono',monospace; font-size:13px;}
+.quiz-len button.active{background:var(--ink); color:var(--paper); border-color:var(--ink);}
+.quiz-mode{display:flex; gap:10px; justify-content:center; margin-bottom:26px; flex-wrap:wrap;}
+.quiz-mode button{padding:9px 16px; border-radius:999px; border:1px solid var(--line-strong); background:var(--paper); font-weight:600; cursor:pointer; font-family:'Be Vietnam Pro',sans-serif; font-size:12.5px; color:var(--ink-soft);}
+.quiz-mode button.active{background:var(--gold); color:#F4EEDC; border-color:var(--gold);}
+.q-box .q-sentence{font-family:'Noto Serif SC',serif; font-weight:600; font-size:22px; line-height:1.7;}
+.q-box .q-sentence .blank{display:inline-block; min-width:52px; border-bottom:2px solid var(--seal); color:var(--seal); font-weight:900;}
+.quiz-start-btn{background:var(--seal); color:#F4E9D8; border:none; padding:13px 30px; border-radius:var(--radius); font-weight:700; font-size:14.5px; cursor:pointer;}
+
+.quiz-head{display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;}
+.quiz-head .qcount{font-family:'JetBrains Mono',monospace; font-size:12.5px; color:var(--ink-soft);}
+.quiz-head .qscore{font-family:'JetBrains Mono',monospace; font-size:12.5px; color:var(--jade-dark); font-weight:700;}
+.quiz-bar{height:4px; background:var(--line-strong); border-radius:2px; overflow:hidden; margin-bottom:26px;}
+.quiz-bar i{display:block; height:100%; background:var(--gold); transition:width .3s;}
+
+.q-box{background:#F4EEDC; border:1px solid var(--line); border-radius:6px; padding:32px 28px; text-align:center; margin-bottom:18px;}
+.q-box .q-label{font-size:11px; text-transform:uppercase; letter-spacing:1.5px; color:var(--ink-faint); margin-bottom:14px;}
+.q-box .q-main{font-family:'Noto Serif SC',serif; font-weight:700; font-size:38px; line-height:1.2;}
+.q-box .q-main.small{font-family:'Be Vietnam Pro',sans-serif; font-size:19px; font-weight:600;}
+.q-box .q-sub{margin-top:8px; font-family:'JetBrains Mono',monospace; color:var(--gold); font-size:13px;}
+
+.q-options{display:grid; grid-template-columns:1fr 1fr; gap:10px;}
+@media (max-width:520px){.q-options{grid-template-columns:1fr;}}
+.q-opt{
+  text-align:left; padding:14px 16px; border-radius:6px; border:1px solid var(--line-strong);
+  background:#F4EEDC; cursor:pointer; font-size:14px; color:var(--ink); font-family:'Be Vietnam Pro',sans-serif;
+  transition:all .12s ease;
+}
+.q-opt .hz-opt{font-family:'Noto Serif SC',serif; font-weight:700; font-size:19px;}
+.q-opt:hover{border-color:var(--gold);}
+.q-opt.correct{background:var(--jade); border-color:var(--jade); color:#F4EEDC;}
+.q-opt.wrong{background:var(--seal); border-color:var(--seal); color:#F4EEDC;}
+.q-opt.disabled{pointer-events:none;}
+.q-opt.dim{opacity:0.45;}
+
+.quiz-result{background:#F4EEDC; border:1px solid var(--line); border-radius:6px; padding:40px 28px; text-align:center;}
+.quiz-result .score-big{font-family:'Noto Serif SC',serif; font-weight:900; font-size:56px; color:var(--seal); line-height:1;}
+.quiz-result .score-label{color:var(--ink-soft); margin:8px 0 26px; font-size:14px;}
+.quiz-result .review-list{text-align:left; max-width:420px; margin:0 auto 26px; display:flex; flex-direction:column; gap:6px; max-height:220px; overflow:auto; padding-right:4px;}
+.quiz-result .review-item{font-size:13px; padding:8px 12px; border-radius:4px; background:var(--paper-2); display:flex; justify-content:space-between; gap:10px;}
+.quiz-result .review-item.miss{background:var(--seal-glow);}
+.quiz-result button{background:var(--seal); color:#F4E9D8; border:none; padding:12px 26px; border-radius:var(--radius); font-weight:700; cursor:pointer; font-size:14px;}
+
+footer.credit{text-align:center; margin-top:50px; font-size:11.5px; color:var(--ink-faint); letter-spacing:0.4px;}
+
+/* Detail modal */
+.modal-bg{position:fixed; inset:0; background:rgba(34,28,21,0.55); display:none; align-items:center; justify-content:center; z-index:50; padding:20px;}
+.modal-bg.show{display:flex;}
+.modal-card{background:var(--paper); border-radius:8px; max-width:380px; width:100%; padding:28px; box-shadow:var(--shadow); position:relative; text-align:center;}
+.modal-card .hz{font-family:'Noto Serif SC',serif; font-weight:900; font-size:44px;}
+.modal-card .py{font-family:'JetBrains Mono',monospace; color:var(--gold); margin-top:8px; font-size:14px;}
+.modal-card .mn{margin-top:14px; font-size:16px; font-weight:600;}
+.modal-card .mtoggle{margin-top:22px; border:none; background:var(--jade); color:#F4EEDC; padding:10px 20px; border-radius:999px; font-weight:700; cursor:pointer; font-size:13px;}
+.modal-card .mtoggle.on{background:var(--ink);}
+.modal-close{position:absolute; top:12px; right:14px; background:none; border:none; font-size:18px; color:var(--ink-soft); cursor:pointer;}
+</style>
+</head>
+<body>
+<div class="app">
+
+  <header class="top">
+    <div class="brand">
+      <div class="brand-seal">词</div>
+      <div class="brand-text">
+        <h1>词汇本 <span style="font-weight:400;font-size:15px;color:var(--ink-soft);">Sổ Tay HSK6</span></h1>
+        <p>Từ vựng &amp; ngữ pháp · TC2-1 — <span id="totalHeaderCount">495</span> mục</p>
+      </div>
+    </div>
+    <div class="progress-chip">
+      <div class="ring" id="progressRing"><div class="ring-in" id="progressPct">0%</div></div>
+      <div class="plabel">Đã thuộc<br><b id="masteredCount">0</b> / <span id="totalCount">304</span></div>
+    </div>
+  </header>
+
+  <nav class="tabs">
+    <button class="tab-btn active" data-tab="study"><span class="zh">学</span>Học từ</button>
+    <button class="tab-btn" data-tab="flash"><span class="zh">闪</span>Flashcard</button>
+    <button class="tab-btn" data-tab="grammar"><span class="zh">语</span>Ngữ pháp</button>
+    <button class="tab-btn" data-tab="quiz"><span class="zh">练</span>Bài tập</button>
+  </nav>
+
+  <!-- STUDY PANEL -->
+  <section class="panel active" id="panel-study">
+    <div class="toolbar">
+      <div class="search-wrap">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" id="searchInput" placeholder="Tìm theo chữ Hán, pinyin hoặc nghĩa tiếng Việt...">
+      </div>
+      <div class="filter-group" id="catFilter">
+        <button class="active" data-cat="all">Tất cả</button>
+        <button data-cat="TC2-1">Phần 1</button>
+        <button data-cat="TC2-1b">Phần 2</button>
+        <button data-cat="TC2-1c">Phần 3</button>
+        <button data-cat="TC2-1d">Phần 4</button>
+        <button data-cat="TC2-1e">Phần 5</button>
+        <button data-cat="mastered">Đã thuộc</button>
+      </div>
+    </div>
+    <div class="word-list" id="wordList"></div>
+  </section>
+
+  <!-- FLASHCARD PANEL -->
+  <section class="panel" id="panel-flash">
+    <div class="fc-controls">
+      <div class="fc-deck-select" id="fcDeckSelect">
+        <button class="active" data-deck="all">Tất cả</button>
+        <button data-deck="unmastered">Chưa thuộc</button>
+        <button data-deck="TC2-1">Phần 1</button>
+        <button data-deck="TC2-1b">Phần 2</button>
+        <button data-deck="TC2-1c">Phần 3</button>
+        <button data-deck="TC2-1d">Phần 4</button>
+        <button data-deck="TC2-1e">Phần 5</button>
+      </div>
+      <div class="fc-count" id="fcCount"></div>
+    </div>
+    <div class="fc-stage">
+      <div class="fc-progress-bar"><i id="fcBar"></i></div>
+      <div id="fcCardArea"></div>
+    </div>
+  </section>
+
+  <!-- GRAMMAR PANEL -->
+  <section class="panel" id="panel-grammar">
+    <div class="grammar-list" id="grammarList"></div>
+  </section>
+
+  <!-- QUIZ PANEL -->
+  <section class="panel" id="panel-quiz">
+    <div id="quizArea"></div>
+  </section>
+
+  <footer class="credit">拓 学 而 时 习 之 · Ôn tập đều đặn mỗi ngày để thuộc lâu hơn</footer>
+</div>
+
+<div class="modal-bg" id="modalBg">
+  <div class="modal-card" id="modalCard">
+    <button class="modal-close" id="modalClose">✕</button>
+    <div class="hz" id="modalHz"></div>
+    <div class="py" id="modalPy"></div>
+    <div class="mn" id="modalMn"></div>
+    <button class="mtoggle" id="modalToggle">Đánh dấu đã thuộc</button>
+  </div>
+</div>
+
+<script>
+const VOCAB = [{"h":"自诩","p":"zìxǔ","m":"khoe khoang, khoác lác","c":"TC2-1","t":"vocab","u":"","pt":"","s":"他总是___精通多国语言，其实只会说几句简单的问候语。"},{"h":"横加指责","p":"héngjiāzhǐzé","m":"chỉ trích vô căn cứ","c":"TC2-1","t":"vocab","u":"","pt":"","s":"还没了解事情的经过，他就对同事___，让人很委屈。"},{"h":"启蒙","p":"qǐméng","m":"khai sáng","c":"TC2-1","t":"vocab","u":"","pt":"","s":"这位老师是我人生中的___老师，教会我独立思考。"},{"h":"君子求诸己","p":"","m":"quân tử tìm lỗi ở mình","c":"TC2-1","t":"vocab","u":"","pt":"","s":""},{"h":"沦为","p":"","m":"trở thành (nghĩa tiêu cực)","c":"TC2-1","t":"vocab","u":"","pt":"","s":"这座曾经繁华的城市，如今已经___一片废墟。"},{"h":"心不在焉","p":"xīnbúzàiyān","m":"lơ đêng, k tập trung","c":"TC2-1","t":"vocab","u":"","pt":"","s":"他上课的时候总是___，老师讲的内容一句也没听进去。"},{"h":"排斥","p":"páichì","m":"bài xích, gạt bỏ","c":"TC2-1","t":"vocab","u":"","pt":"","s":"刚转学来的孩子常常被同学___，感到很孤独。"},{"h":"佛教","p":"fójiào","m":"Phật giáo","c":"TC2-1","t":"vocab","u":"","pt":"","s":""},{"h":"打开话匣子","p":"","m":"mở đầu câu chuyện, bắt đầu câu chuyện","c":"TC2-1","t":"vocab","u":"","pt":"","s":"一说起自己的家乡，奶奶就___，滔滔不绝地讲个不停。"},{"h":"气馁","p":"","m":"nhụt chí, nản lòng","c":"TC2-1","t":"vocab","u":"","pt":"","s":"虽然连续失败了好几次，他也没有___，继续努力尝试。"},{"h":"凹凸","p":"","m":"lồi lõm","c":"TC2-1","t":"vocab","u":"","pt":"","s":""},{"h":"触目惊心","p":"","m":"nhìn thấy phát hoảng","c":"TC2-1","t":"vocab","u":"","pt":"","s":"灾区的景象___，让所有救援人员都感到心痛。"},{"h":"胜任","p":"","m":"đảm nhận","c":"TC2-1","t":"vocab","u":"","pt":"","s":"这份工作要求很高，他能否___还是个未知数。"},{"h":"工匠","p":"","m":"thợ thủ công","c":"TC2-1","t":"vocab","u":"","pt":"","s":""},{"h":"臀围","p":"","m":"vòng mông","c":"TC2-1","t":"vocab","u":"","pt":"","s":""},{"h":"脂肪","p":"zhīfáng","m":"mỡ, chất béo","c":"TC2-1","t":"vocab","u":"","pt":"","s":""},{"h":"和谐","p":"","m":"hài hoà","c":"TC2-1","t":"vocab","u":"","pt":"","s":"邻里之间相处___，整个小区的氛围都很温馨。"},{"h":"掩护","p":"","m":"che chắn","c":"TC2-1","t":"vocab","u":"","pt":"","s":"队友在前面___，让他有机会安全撤离。"},{"h":"圆……梦想","p":"yuán…mèngxiǎng","m":"hiện thực hoá giấc mơ","c":"TC2-1","t":"grammar","u":"\"圆梦\" — biến giấc mơ thành hiện thực. VD: 他终于圆了自己的梦想 (Anh ấy cuối cùng đã thực hiện được ước mơ của mình).","pt":"圆……梦想","s":""},{"h":"掀起","p":"","m":"vén màn, mở màn","c":"TC2-1","t":"vocab","u":"","pt":"","s":"这部电影上映后，在网络上___了一阵热议。"},{"h":"屡屡","p":"","m":"nhiều lần","c":"TC2-1","t":"vocab","u":"","pt":"","s":"尽管___失败，他依然没有放弃自己的梦想。"},{"h":"一筹莫展","p":"","m":"rơi vào bế tắc","c":"TC2-1","t":"vocab","u":"","pt":"","s":"面对突如其来的资金问题，公司高层一时___。"},{"h":"千载难逢","p":"","m":"ngàn năm có một, cực kỳ hiếm có","c":"TC2-1","t":"vocab","u":"","pt":"","s":"这是一个___的好机会，你一定要好好把握。"},{"h":"自投罗网","p":"","m":"tự chui đầu vào lưới","c":"TC2-1","t":"vocab","u":"","pt":"","s":"他明知道那是陷阱，却还是___，走了进去。"},{"h":"一技之长","p":"","m":"sở trường về một thứ gì đó","c":"TC2-1","t":"vocab","u":"","pt":"","s":"只要拥有___，即使学历不高，也能找到不错的工作。"},{"h":"相悖","p":"xiāngbèi","m":"tương phản, trái ngược","c":"TC2-1","t":"vocab","u":"","pt":"","s":"他说的话和实际做法完全___，让人难以信任。"},{"h":"遐想","p":"xiáxiǎng","m":"mơ mộng","c":"TC2-1","t":"vocab","u":"","pt":"","s":"望着窗外的星空，她不禁陷入了美好的___之中。"},{"h":"殊不知","p":"shūbùzhī","m":"không ngờ rằng","c":"TC2-1","t":"vocab","u":"","pt":"","s":"他以为自己已经很努力了，___同事付出的更多。"},{"h":"取而代之","p":"qǔ ér dài zhī","m":"thay thế","c":"TC2-1","t":"vocab","u":"","pt":"","s":"随着科技的发展，人工智能正在逐渐___传统的人工客服。"},{"h":"腰缠万惯","p":"yāochánwànguàn","m":"túi tiền đầy, rủng rỉnh","c":"TC2-1","t":"vocab","u":"","pt":"","s":""},{"h":"包袱","p":"bāofu","m":"gánh nặng","c":"TC2-1","t":"vocab","u":"","pt":"","s":""},{"h":"忽视","p":"问题、作用、影响","m":"xem nhẹ những vấn đề đáng lẽ phai quan tâm","c":"TC2-1","t":"vocab","u":"","pt":"","s":"家长不能___孩子的心理健康问题。"},{"h":"忽略","p":"","m":"bỏ sót (do sơ suất, vô ý)","c":"TC2-1","t":"vocab","u":"","pt":"","s":"他一时___了细节，导致整个计划出现了漏洞。"},{"h":"疏忽","p":"shūhu","m":"sơ suất, sơ ý. lơ là, thiếu cẩn thận (từ đó dẫn tới sai sót)","c":"TC2-1","t":"vocab","u":"","pt":"","s":"由于工作人员的一时___，文件上出现了严重的错误。"},{"h":"进一步","p":"jìnyíbù","m":"tiến thêm một bước, sâu hơn nữa","c":"TC2-1","t":"grammar","u":"Đặt trước động từ, nhấn mạnh mức độ \"tiến thêm một bước\". VD: 我们需要进一步了解情况 (Chúng ta cần tìm hiểu sâu hơn về tình hình).","pt":"进一步 + V","s":""},{"h":"起着……作用","p":"qǐzhe…zuòyòng","m":"phát huy tác dụng…","c":"TC2-1","t":"grammar","u":"Diễn tả một sự vật/việc đang phát huy vai trò, tác dụng gì đó. VD: 教育在社会发展中起着重要作用 (Giáo dục phát huy vai trò quan trọng trong sự phát triển xã hội).","pt":"起着……作用","s":""},{"h":"精湛","p":"jīngzhàn","m":"cao siêu, tinh xảo","c":"TC2-1","t":"vocab","u":"","pt":"","s":"这位工匠的手艺十分___，做出来的家具堪称艺术品。"},{"h":"砸","p":"zá","m":"đập vỡ","c":"TC2-1","t":"vocab","u":"","pt":"","s":"一不小心，他把手里的花瓶___在了地上。"},{"h":"轰动","p":"hōngdòng","m":"chấn động, náo động","c":"TC2-1","t":"vocab","u":"","pt":"","s":"这条新闻一经发布，立刻在全国引起了巨大的___。"},{"h":"无妨","p":"wúfáng","m":"khong sao cả, cũng chả sao","c":"TC2-1","t":"vocab","u":"","pt":"","s":"如果你想休息一下，___，我们可以晚点再继续。"},{"h":"杏仁","p":"xìngrén","m":"hạnh nhân","c":"TC2-1","t":"vocab","u":"","pt":"","s":""},{"h":"轻描淡写","p":"qīngmiáodànxiě","m":"qua loa, hợi hợt","c":"TC2-1","t":"vocab","u":"","pt":"","s":"面对严重的问题，他却___地一句话带过，让人不满。"},{"h":"欲罢不能","p":"yùbābùnéng","m":"muốn ngừng mà không ngừng dkd","c":"TC2-1","t":"vocab","u":"","pt":"","s":"这部小说情节太精彩了，让人读起来___。"},{"h":"栋","p":"dòng (m","m":"dùng cho các toà nhà công trình độc lập 一栋楼","c":"TC2-1","t":"vocab","u":"","pt":"","s":""},{"h":"越发","p":"","m":"càng ngày càng","c":"TC2-1","t":"vocab","u":"","pt":"","s":"随着年龄的增长，他___理解父母的辛苦。"},{"h":"皆","p":"jiē","m":"都，都是","c":"TC2-1","t":"vocab","u":"","pt":"","s":""},{"h":"统统","p":"tǒngtǒng","m":"toàn bộ, hết thảy","c":"TC2-1","t":"grammar","u":"Trạng từ đặt trước động từ, nhấn mạnh \"tất cả, không sót cái nào\". VD: 东西统统扔掉了 (Đồ đạc bị vứt hết sạch).","pt":"统统 + V","s":""},{"h":"缆车","p":"lǎnchē","m":"cáp treo","c":"TC2-1","t":"vocab","u":"","pt":"","s":""},{"h":"献血","p":"xiànxuè","m":"hiến máu","c":"TC2-1","t":"vocab","u":"","pt":"","s":"每年冬天，医院的血库都很紧张，号召大家踊跃___。"},{"h":"指甲","p":"zhǐjiǎ","m":"móng tay","c":"TC2-1","t":"vocab","u":"","pt":"","s":""},{"h":"美眉","p":"měiméi","m":"cô gái xinh đẹp (tiếng lóng)","c":"TC2-1","t":"vocab","u":"","pt":"","s":""},{"h":"棺材","p":"guāncai","m":"quan tài","c":"TC2-1","t":"vocab","u":"","pt":"","s":""},{"h":"抽筋","p":"chōujīn","m":"chuột rút","c":"TC2-1","t":"vocab","u":"","pt":"","s":"游泳的时候突然___，幸好旁边有人及时相救。"},{"h":"花钱找罪受","p":"huāqián zhǎo zuìshòu","m":"bỏ tiền ra chuốc khổ vào thân","c":"TC2-1","t":"vocab","u":"","pt":"","s":""},{"h":"瑞雪兆丰年","p":"","m":"tuyết báo được mùa, mùa màng bội thu","c":"TC2-1","t":"vocab","u":"","pt":"","s":""},{"h":"庄稼","p":"","m":"hoa màu","c":"TC2-1","t":"vocab","u":"","pt":"","s":""},{"h":"炒股","p":"chǎogǔ","m":"chơi cổ phiếu","c":"TC2-1","t":"vocab","u":"","pt":"","s":"他把大部分积蓄都拿去___，结果亏损严重。"},{"h":"富翁","p":"fùwēng","m":"phú ông, người giàu","c":"TC2-1","t":"vocab","u":"","pt":"","s":"他白手起家，用十年时间成为了当地小有名气的___。"},{"h":"啰嗦","p":"luōsuo","m":"dài dòng, lắm chuyện, lê tha lê thê","c":"TC2-1","t":"vocab","u":"","pt":"","s":"妈妈总是很___，同一件事要反复叮嘱好几遍。"},{"h":"丈母娘","p":"zhàngmǔniáng","m":"mẹ vợ, nhạc mẫu","c":"TC2-1","t":"vocab","u":"","pt":"","s":""},{"h":"荣耀","p":"róngyào","m":"vinh hạnh, vinh dự","c":"TC2-1","t":"vocab","u":"","pt":"","s":"能够代表国家参加奥运会，是运动员一生的___。"},{"h":"称赞","p":"chēngzàn","m":"khen","c":"TC2-1","t":"vocab","u":"","pt":"","s":"老师在班上___了他认真负责的态度。"},{"h":"走运","p":"zǒuyùn","m":"may số, tốt số","c":"TC2-1","t":"vocab","u":"","pt":"","s":"这次考试题目正好是他复习过的内容，真是太___了。"},{"h":"实事求是","p":"shíshìqiúshì","m":"có sao nói vậy","c":"TC2-1","t":"vocab","u":"","pt":"","s":"做研究一定要___，不能凭主观臆测下结论。"},{"h":"就……而言","p":"jiù…éryán","m":"xét về…, lấy…mà nói","c":"TC2-1","t":"grammar","u":"Dùng để giới hạn phạm vi nhận định. VD: 就目前的情况而言，形势并不乐观 (Xét theo tình hình hiện tại thì cục diện không mấy lạc quan).","pt":"就……而言","s":""},{"h":"并非","p":"bìngfēi","m":"không phải","c":"TC2-1","t":"vocab","u":"","pt":"","s":"这件事___像表面看起来那么简单。"},{"h":"纠正","p":"jiūzhèng","m":"uốn nắn","c":"TC2-1","t":"vocab","u":"","pt":"","s":"老师耐心地帮他___了发音上的错误。"},{"h":"伏","p":"fú","m":"nằm ẹp lên","c":"TC2-1","t":"vocab","u":"","pt":"","s":""},{"h":"妨碍","p":"fáng ài","m":"gây cản trở","c":"TC2-1","t":"vocab","u":"","pt":"","s":"长时间玩手机会___孩子的视力发育。"},{"h":"昼长夜短","p":"zhōuchángyèduǎn","m":"ngày dài hơn đêm","c":"TC2-1","t":"vocab","u":"","pt":"","s":""},{"h":"白领","p":"báilǐng","m":"dân văn phòng","c":"TC2-1","t":"vocab","u":"","pt":"","s":"他毕业后进入一家外企，成了一名典型的___。"},{"h":"蓝领","p":"lánlǐng","m":"công nhân","c":"TC2-1","t":"vocab","u":"","pt":"","s":""},{"h":"不妨","p":"bùfáng","m":"cứ, đừng ngại (làm gì đó)","c":"TC2-1","t":"grammar","u":"Đặt trước động từ, khuyên ai đó cứ thử làm gì. VD: 你不妨试一试 (Bạn cứ thử xem sao).","pt":"不妨 + V","s":""},{"h":"舒展","p":"shūzhǎn","m":"kéo dãn","c":"TC2-1","t":"vocab","u":"","pt":"","s":"做完瑜伽后，她感觉全身的筋骨都___开了。"},{"h":"筋骨","p":"jīngǔ","m":"gân cốt","c":"TC2-1","t":"vocab","u":"","pt":"","s":""},{"h":"写字楼","p":"xiězìlóu","m":"toà nhà văn phòng","c":"TC2-1","t":"vocab","u":"","pt":"","s":""},{"h":"倒走","p":"","m":"đi lùi","c":"TC2-1","t":"vocab","u":"","pt":"","s":""},{"h":"侧走","p":"","m":"đi ngang, bước ngang","c":"TC2-1","t":"vocab","u":"","pt":"","s":""},{"h":"肌肉","p":"jīròu","m":"cơ bắp","c":"TC2-1","t":"vocab","u":"","pt":"","s":""},{"h":"充沛","p":"chōngpèi","m":"dồi dào, tràn đầy sưc lực","c":"TC2-1","t":"vocab","u":"","pt":"","s":"早上睡个好觉，一整天都会精力___。"},{"h":"键盘","p":"jiànpán","m":"bàn phím","c":"TC2-1","t":"vocab","u":"","pt":"","s":""},{"h":"显示屏","p":"","m":"màn hình","c":"TC2-1","t":"vocab","u":"","pt":"","s":""},{"h":"扬长避短","p":"","m":"tốt khoe xấu che, phát huy điểm tốt và hạn chế điểm xấu","c":"TC2-1","t":"vocab","u":"","pt":"","s":"在团队合作中，我们应该___，发挥各自的优势。"},{"h":"枯燥无味","p":"kūzàowúwèi","m":"vô vị nhạt nhẽo","c":"TC2-1","t":"vocab","u":"","pt":"","s":"这本教材写得十分___，学生都提不起兴趣。"},{"h":"识字","p":"shízì","m":"biết chữ","c":"TC2-1","t":"vocab","u":"","pt":"","s":"这位老人年轻时没有机会上学，现在才开始学习___。"},{"h":"有效期","p":"","m":"thời hạn sử dụng","c":"TC2-1","t":"vocab","u":"","pt":"","s":""},{"h":"忧伤","p":"yōushāng","m":"đau buồn","c":"TC2-1","t":"vocab","u":"","pt":"","s":"听到这个消息，她的脸上露出了一丝___的神情。"},{"h":"底朝天","p":"dǐcháotiān","m":"rối tung, lật tung","c":"TC2-1","t":"vocab","u":"","pt":"","s":""},{"h":"赖床","p":"làichuáng","m":"nằm lì trên giường","c":"TC2-1","t":"vocab","u":"","pt":"","s":"每到周末，他总喜欢___，不愿意早起。"},{"h":"挑食","p":"tiāoshí","m":"kén ăn","c":"TC2-1","t":"vocab","u":"","pt":"","s":"这个孩子从小就___，只吃自己喜欢的几样菜。"},{"h":"肿","p":"zhǒng","m":"sưng, phù","c":"TC2-1","t":"vocab","u":"","pt":"","s":""},{"h":"授人以鱼，不如授人以渔","p":"shòurényǐyú, bùrú shòurényǐyú","m":"cho người ta con cá không bằng dạy người ta cách câu cá","c":"TC2-1","t":"vocab","u":"","pt":"","s":""},{"h":"绝佳","p":"juéjiā","m":"tuyệt vời","c":"TC2-1","t":"vocab","u":"","pt":"","s":"站在山顶俯瞰整座城市，是拍照的___位置。"},{"h":"怯懦","p":"qiènuò","m":"sợ sệt, nhát gan","c":"TC2-1","t":"vocab","u":"","pt":"","s":"面对困难，他并没有表现出___，而是勇敢地迎难而上。"},{"h":"冲刺","p":"chōngcì","m":"bứt lên phía trước","c":"TC2-1","t":"vocab","u":"","pt":"","s":"距离终点只剩最后一百米，选手们开始全力___。"},{"h":"谦逊","p":"qiānxùn","m":"khiêm tốn","c":"TC2-1","t":"vocab","u":"","pt":"","s":"尽管取得了巨大的成就，他依然保持着___的态度。"},{"h":"羞于","p":"xiùyú","m":"ngại….","c":"TC2-1","t":"vocab","u":"","pt":"","s":"很多人___开口谈论自己的心理问题。"},{"h":"赏识","p":"shǎngshí","m":"tán dương, khen thưởng","c":"TC2-1","t":"vocab","u":"","pt":"","s":"老板很___他的才华，特意给了他一次晋升的机会。"},{"h":"接触","p":"jiēchù","m":"tiếp xúc","c":"TC2-1","t":"vocab","u":"","pt":"","s":"这是他第一次___编程，感觉既新奇又有挑战性。"},{"h":"画等号","p":"huà děnghào","m":"đánh đồng, coi là như nhau","c":"TC2-1","t":"vocab","u":"","pt":"","s":"我们不能把学历和能力简单地___。"},{"h":"适可而止","p":"shì kě ér zhǐ","m":"có chừng mực","c":"TC2-1","t":"vocab","u":"","pt":"","s":"开玩笑要懂得___，不能伤害到别人的感情。"},{"h":"不尽然","p":"","m":"không phải như vâyh","c":"TC2-1","t":"vocab","u":"","pt":"","s":""},{"h":"以貌取人","p":"","m":"trông mặt bắt hình dong","c":"TC2-1","t":"vocab","u":"","pt":"","s":"面试官不应该___，而要注重考察实际能力。"},{"h":"不修边幅","p":"","m":"ăn mặt lôi thôi","c":"TC2-1","t":"vocab","u":"","pt":"","s":"他平时总是___，衣服也不太在意搭配。"},{"h":"芬芳","p":"fēnfāng","m":"thơm/ hương thơm","c":"TC2-1","t":"vocab","u":"","pt":"","s":"花园里传来阵阵___的花香。"},{"h":"致使","p":"","m":"dẫn đến, khiên cho (tiêu cực)","c":"TC2-1","t":"vocab","u":"","pt":"","s":"长期熬夜___他的身体状况越来越差。"},{"h":"促进","p":"cùjìn","m":"thúc đẩy (điều tích cực)","c":"TC2-1","t":"grammar","u":"Kết hợp với tân ngữ là danh từ, mang nghĩa tích cực: thúc đẩy sự phát triển, tiến bộ. VD: 促进经济发展 (thúc đẩy phát triển kinh tế).","pt":"促进 + N","s":""},{"h":"促使","p":"cùshǐ","m":"thúc đẩy, khiến cho (dẫn đến hành động)","c":"TC2-1","t":"grammar","u":"Kết hợp với đối tượng + động từ khác, diễn tả điều gì đó khiến một hành động xảy ra. VD: 这促使他改变了想法 (Điều đó khiến anh ấy thay đổi suy nghĩ).","pt":"促使 + N/O + V","s":""},{"h":"抛弃","p":"pāoqì","m":"vứt bỏ","c":"TC2-1","t":"vocab","u":"","pt":"","s":"他从不轻易___自己的原则和底线。"},{"h":"题目","p":"","m":"đề bài, câu hỏi","c":"TC2-1","t":"vocab","u":"","pt":"","s":""},{"h":"课题","p":"","m":"đề tài nghiên cứu","c":"TC2-1","t":"vocab","u":"","pt":"","s":""},{"h":"题材","p":"","m":"đề tài, chất liệu ( nghệ thuật)","c":"TC2-1","t":"vocab","u":"","pt":"","s":""},{"h":"招聘启事","p":"","m":"thông báo tuyển dụng","c":"TC2-1","t":"vocab","u":"","pt":"","s":"公司在网上发布了一则___，想招聘几名新员工。"},{"h":"投简历","p":"","m":"rải CV","c":"TC2-1","t":"vocab","u":"","pt":"","s":"为了找到理想的工作，他连续向十几家公司___。"},{"h":"鱼缸","p":"","m":"bể cá","c":"TC2-1","t":"vocab","u":"","pt":"","s":""},{"h":"积压","p":"jīyā","m":"ứ đọng, tồn đọng","c":"TC2-1","t":"vocab","u":"","pt":"","s":"仓库里___了大量卖不出去的库存商品。"},{"h":"渠道","p":"qúdào","m":"kênh","c":"TC2-1","t":"vocab","u":"","pt":"","s":"这家公司通过多种___来宣传自己的产品。"},{"h":"野炊","p":"yěchuī","m":"nấu ăn dã ngoại","c":"TC2-1","t":"vocab","u":"","pt":"","s":""},{"h":"不胫而走","p":"bù jìng ér zǒu","m":"lan truyền nhanh chóng","c":"TC2-1","t":"vocab","u":"","pt":"","s":"这个消息一经传出，很快就___，全城都知道了。"},{"h":"稀奇","p":"xī qí","m":"hiếm gặp, hiếm lạ","c":"TC2-1","t":"vocab","u":"","pt":"","s":"在这个偏远的小村庄，见到外国人是件___的事。"},{"h":"翻了一番","p":"fān","m":"tăng gấp đôi","c":"TC2-1","t":"vocab","u":"","pt":"","s":"经过几年的发展，公司的营业额已经___。"},{"h":"库存","p":"kūcún","m":"hàng tồn","c":"TC2-1","t":"vocab","u":"","pt":"","s":"由于订单太多，商家的___已经不够了。"},{"h":"合不拢嘴","p":"hé bù lóng zuǐ","m":"không khép lại miệng","c":"TC2-1","t":"vocab","u":"","pt":"","s":"听到孙子考上了名牌大学，奶奶高兴得___。"},{"h":"无可奈何","p":"wúkěnàihé","m":"hết cách, bất lực","c":"TC2-1","t":"vocab","u":"","pt":"","s":"面对突如其来的天气变化，大家也只能___地取消行程。"},{"h":"司空见惯","p":"sīkōngjiànguàn","m":"chuyện thường","c":"TC2-1","t":"vocab","u":"","pt":"","s":"在大城市，交通堵塞早已是___的事情了。"},{"h":"为……着想","p":"wèi…zhuóxiǎng","m":"suy nghĩ, lo lắng vì ai đó","c":"TC2-1","t":"grammar","u":"\"Suy nghĩ, lo lắng vì lợi ích của ai đó\". VD: 他一直在为家人着想 (Anh ấy luôn nghĩ cho gia đình).","pt":"为……着想","s":""},{"h":"摆出…………的诱惑","p":"bǎichū…de yòuhuò","m":"bày ra sự cám dỗ của…","c":"TC2-1","t":"grammar","u":"Diễn tả việc bày ra / đưa ra sức cám dỗ của cái gì đó trước mặt ai.","pt":"摆出……的诱惑","s":""},{"h":"难以支撑","p":"nányǐzhīchēng","m":"khó mà chống đỡ nổi","c":"TC2-1","t":"vocab","u":"","pt":"","s":""},{"h":"缺憾","p":"quēhàn","m":"thiếu sót","c":"TC2-1","t":"vocab","u":"","pt":"","s":"这次比赛没能获得冠军，成了他心中的一个___。"},{"h":"造谣","p":"zàoyáo","m":"bịa đặt, tung tin vịt","c":"TC2-1","t":"vocab","u":"","pt":"","s":"他在网上恶意___，最终受到了法律的制裁。"},{"h":"藏匿","p":"cángnì","m":"giấu kín, ẩn núp","c":"TC2-1","t":"vocab","u":"","pt":"","s":"警方在一间废弃的仓库里发现了___的赃物。"},{"h":"牢记","p":"láojì","m":"nhớ kỹ, nhớ chắc","c":"TC2-1","t":"vocab","u":"","pt":"","s":"老师教导我们要___这次教训，不要再犯同样的错误。"},{"h":"人云亦云","p":"rényúnyìyún","m":"gió chiều nào theo chiều đó","c":"TC2-1","t":"vocab","u":"","pt":"","s":"做人要有自己的判断，不能总是___。"},{"h":"务虚","p":"wùxū","m":"mơ mông hão huyền","c":"TC2-1","t":"vocab","u":"","pt":"","s":""},{"h":"炒鱿鱼","p":"","m":"bị sa thải/ đuổi việc","c":"TC2-1","t":"vocab","u":"","pt":"","s":"因为多次迟到，他最终被公司___了。"},{"h":"揣摩","p":"chuǎimó","m":"suy ngẫm, nghiền ngẫm","c":"TC2-1","t":"vocab","u":"","pt":"","s":"他反复___客户的心理，才制定出合适的方案。"},{"h":"厌倦","p":"yànjuàn","m":"mất hứng, chán nản","c":"TC2-1","t":"vocab","u":"","pt":"","s":"重复枯燥的工作让他渐渐感到___。"},{"h":"温馨","p":"wēnxīn","m":"ấm áp","c":"TC2-1","t":"vocab","u":"","pt":"","s":"这个小家庭虽然不富裕，却充满了___的气氛。"},{"h":"添油加醋","p":"tiānyóujiācù","m":"thêm mắm dặm muối, thêm dầu vào lửa","c":"TC2-1","t":"vocab","u":"","pt":"","s":"这件小事经过他一番___的描述，变得像大新闻一样。"},{"h":"添砖加瓦","p":"tiānzhuānjiāwǎ","m":"góp một phần sức lực","c":"TC2-1","t":"vocab","u":"","pt":"","s":""},{"h":"得过且过","p":"","m":"sống cho qua ngày","c":"TC2-1","t":"vocab","u":"","pt":"","s":"他对未来没有什么规划，只想___地过日子。"},{"h":"离谱","p":"lípǔ","m":"khó tin","c":"TC2-1","t":"vocab","u":"","pt":"","s":"他迟到了整整三个小时，这个理由实在太___了。"},{"h":"靠谱","p":"kàopǔ","m":"đáng tin","c":"TC2-1","t":"vocab","u":"","pt":"","s":"在选择合作伙伴时，一定要找___的人。"},{"h":"不像话","p":"","m":"quá đáng","c":"TC2-1","t":"vocab","u":"","pt":"","s":"他竟然当众大声辱骂长辈，真是太___了。"},{"h":"出洋相","p":"","m":"làm trò cười","c":"TC2-1","t":"vocab","u":"","pt":"","s":"他在众人面前忘了台词，当场___。"},{"h":"绚烂","p":"xuànlàn","m":"huy hoàng, rực rỡ","c":"TC2-1","t":"vocab","u":"","pt":"","s":"烟花在夜空中绽放出___的光芒。"},{"h":"全力以赴","p":"quánlìyǐfù","m":"dốc hết sức mình","c":"TC2-1","t":"vocab","u":"","pt":"","s":"为了这次比赛，他___地训练了整整一年。"},{"h":"搭乘","p":"dāchéng","m":"đi, ngồi, đáp","c":"TC2-1","t":"vocab","u":"","pt":"","s":"他每天都要___地铁上下班，路上花费近两个小时。"},{"h":"凑合","p":"còuhe","m":"tạm, ráng, cố chịu","c":"TC2-1","t":"vocab","u":"","pt":"","s":"条件虽然简陋，但大家还是___住了一晚。"},{"h":"叛逆","p":"pànnì","m":"phản nghịch","c":"TC2-1","t":"vocab","u":"","pt":"","s":"青春期的孩子往往表现得比较___，常和父母顶嘴。"},{"h":"对着干","p":"","m":"đối đầu","c":"TC2-1","t":"vocab","u":"","pt":"","s":"他总喜欢和领导___，结果人际关系一直不太好。"},{"h":"天伦之乐","p":"tiānlúnzhīlè","m":"hạnh phúc gia đình, niềm vui sum vầy","c":"TC2-1","t":"vocab","u":"","pt":"","s":"退休以后，他每天陪伴儿孙，享受___。"},{"h":"琢磨","p":"zhuómo","m":"mài, gọt giũa","c":"TC2-1","t":"vocab","u":"","pt":"","s":"这个问题他反复___了很久，才想出解决办法。"},{"h":"搁置","p":"gēzhì","m":"bỏ, gác lại","c":"TC2-1","t":"vocab","u":"","pt":"","s":"由于资金不足，这个项目暂时被___了。"},{"h":"微量元素","p":"wēiliàng yuánsù","m":"vi chất, nguyên tố vi lượng","c":"TC2-1","t":"vocab","u":"","pt":"","s":""},{"h":"新陈代谢","p":"xīnchéndàixiè","m":"sự trao đổi chất","c":"TC2-1","t":"vocab","u":"","pt":"","s":"年轻人的___比老年人要快得多。"},{"h":"肠胃","p":"chángwèi","m":"ruột, dạ dày","c":"TC2-1","t":"vocab","u":"","pt":"","s":""},{"h":"美容","p":"měiróng","m":"làm đẹp","c":"TC2-1","t":"vocab","u":"","pt":"","s":"很多女性喜欢定期去做___，保养皮肤。"},{"h":"此次","p":"","m":"lần này","c":"TC2-1","t":"vocab","u":"","pt":"","s":""},{"h":"有","p":"yǒu suǒ","m":"có phần (tăng, giảm, cải thiện…)","c":"TC2-1","t":"grammar","u":"有所 + động từ hai âm tiết (tăng, giảm, cải thiện…), diễn tả sự thay đổi ở một mức độ nhất định. VD: 情况有所改善 (Tình hình đã có phần cải thiện).","pt":"有 + 所 + V","s":""},{"h":"光环","p":"guānghuán","m":"vầng sáng","c":"TC2-1","t":"vocab","u":"","pt":"","s":""},{"h":"流淌","p":"liútǎng","m":"chảy, rơi (lệ)","c":"TC2-1","t":"vocab","u":"","pt":"","s":"听到这首歌，她的眼泪不由自主地___了下来。"},{"h":"丁点","p":"","m":"một chút","c":"TC2-1","t":"vocab","u":"","pt":"","s":""},{"h":"奢望","p":"","m":"mong mỏi, xa vọng","c":"TC2-1","t":"vocab","u":"","pt":"","s":"在那个年代，出国留学对普通家庭来说是一种___。"},{"h":"耕耘","p":"","m":"cày cấy, cày bừa","c":"TC2-1","t":"vocab","u":"","pt":"","s":""},{"h":"福如东海，寿比南山","p":"fú rú dōnghǎi, shòu bǐ nánshān","m":"phúc như đông hải, thọ tựa nam sơn (lời chúc thọ)","c":"TC2-1","t":"vocab","u":"","pt":"","s":""},{"h":"待人接物","p":"","m":"đối nhân xử thế","c":"TC2-1","t":"vocab","u":"","pt":"","s":"他从小就懂得___的道理，为人非常有礼貌。"},{"h":"举手投足","p":"jǔshǒutóuzú","m":"cử chỉ hành vi","c":"TC2-1","t":"vocab","u":"","pt":"","s":"她的___之间都透着一股优雅的气质。"},{"h":"圣地","p":"shèngdì","m":"thánh địa, cái nôi","c":"TC2-1","t":"vocab","u":"","pt":"","s":""},{"h":"前往","p":"qiánwǎng","m":"đi đến, hướng đến","c":"TC2-1","t":"grammar","u":"Động từ trang trọng, dùng trong văn viết. VD: 代表团前往北京访问 (Đoàn đại biểu đi đến Bắc Kinh thăm hỏi).","pt":"前往 + O (địa điểm)","s":""},{"h":"吃糖","p":"chítáng","m":"ao hồ","c":"TC2-1","t":"vocab","u":"","pt":"","s":""},{"h":"宣泄","p":"xuānxiè","m":"bộc lộ, giải toả","c":"TC2-1","t":"vocab","u":"","pt":"","s":"写日记是他___情绪的一种方式。"},{"h":"吝啬","p":"lìnsè","m":"keo kiệt","c":"TC2-1","t":"vocab","u":"","pt":"","s":"他为人十分___，从来舍不得请朋友吃饭。"},{"h":"传播","p":"chuánbō","m":"truyền bá","c":"TC2-1","t":"vocab","u":"","pt":"","s":"网络让信息的___速度变得前所未有的快。"},{"h":"印刷","p":"yìnshuā","m":"in ấn","c":"TC2-1","t":"vocab","u":"","pt":"","s":""},{"h":"上司","p":"shàngsī","m":"cấp trên","c":"TC2-1","t":"vocab","u":"","pt":"","s":"他和___的关系一直处理得不太好，压力很大。"},{"h":"门卫","p":"ménwèi","m":"bảo vệ, gác cổng","c":"TC2-1","t":"vocab","u":"","pt":"","s":"小区的___每天都会认真检查每一位来访者的身份。"},{"h":"前途未卜","p":"qiántúwèibǔ","m":"tương lai bất định, tương lai khó đoán trước","c":"TC2-1b","t":"vocab","u":"","pt":"","s":"刚毕业的他，对自己___的职业道路感到有些迷茫。"},{"h":"职业生涯","p":"shēngyá","m":"career path","c":"TC2-1b","t":"vocab","u":"","pt":"","s":""},{"h":"荆棘","p":"jīngjí","m":"bụi gai, chông gai","c":"TC2-1b","t":"vocab","u":"","pt":"","s":"创业的道路上布满了___，需要坚定的意志才能走下去。"},{"h":"扯","p":"chě","m":"bốc phét, không thể tin được","c":"TC2-1b","t":"vocab","u":"","pt":"","s":""},{"h":"扯淡","p":"chědàn","m":"nói linh tinh","c":"TC2-1b","t":"vocab","u":"","pt":"","s":"别再___了，我们得认真讨论一下解决方案。"},{"h":"零工经济","p":"","m":"nền kinh tế việc làm tự do","c":"TC2-1b","t":"vocab","u":"","pt":"","s":""},{"h":"社会保障","p":"","m":"an sinh xã hội","c":"TC2-1b","t":"vocab","u":"","pt":"","s":""},{"h":"崛起","p":"juéqǐ","m":"trồi lên, vùng dậy","c":"TC2-1b","t":"vocab","u":"","pt":"","s":"近年来，这座小城市在旅游业方面迅速___。"},{"h":"新冠疫情","p":"xīnguānyìqíng","m":"dịch Covid","c":"TC2-1b","t":"vocab","u":"","pt":"","s":""},{"h":"刻板印象","p":"kèbǎn yìnxiàng","m":"ấn tượng rập khuôn","c":"TC2-1b","t":"vocab","u":"","pt":"","s":"很多人对这个职业存在一种___，认为它不够体面。"},{"h":"门槛","p":"ménkǎn","m":"tiêu chuẩn, ngưỡng cửa","c":"TC2-1b","t":"vocab","u":"","pt":"","s":"这所大学的录取___非常高，竞争十分激烈。"},{"h":"依托","p":"yītuò","m":"dựa dẫm vào","c":"TC2-1b","t":"vocab","u":"","pt":"","s":"这个村庄___丰富的自然资源发展起了旅游业。"},{"h":"欧盟","p":"","m":"Liên Minh Châu Âu","c":"TC2-1b","t":"vocab","u":"","pt":"","s":""},{"h":"网约车司机","p":"","m":"tài xe xe công nghệ","c":"TC2-1b","t":"vocab","u":"","pt":"","s":""},{"h":"剥削","p":"bōxuē","m":"bóc lộc","c":"TC2-1b","t":"vocab","u":"","pt":"","s":"在那个年代，工人经常受到资本家的___。"},{"h":"立竿见影","p":"lìgān jiànyǐng","m":"hiệu quả nhanh chóng","c":"TC2-1b","t":"vocab","u":"","pt":"","s":"这种减肥方法号称能够___，其实并没有科学依据。"},{"h":"抵御","p":"dǐ yù","m":"chống lại, ngăn lại","c":"TC2-1b","t":"vocab","u":"","pt":"","s":"多锻炼身体可以增强免疫力，帮助我们___疾病。"},{"h":"任重道远","p":"","m":"nhiệm vụ nặng nề xa xôi","c":"TC2-1b","t":"vocab","u":"","pt":"","s":"环保事业___，需要每个人共同努力。"},{"h":"服用","p":"fúyòng","m":"cách dùng thuộc","c":"TC2-1b","t":"vocab","u":"","pt":"","s":"这种药物必须按照医生的嘱咐___，不能随意增减剂量。"},{"h":"按部就班","p":"","m":"làm từng bước một","c":"TC2-1b","t":"vocab","u":"","pt":"","s":"他做事一向___，从不急于求成。"},{"h":"濒临","p":"bīnlín","m":"gần, kề cận","c":"TC2-1b","t":"vocab","u":"","pt":"","s":"由于长期过度捕捞，这种鱼类已经___灭绝。"},{"h":"奥林匹克","p":"","m":"olympic","c":"TC2-1b","t":"vocab","u":"","pt":"","s":""},{"h":"盛会","p":"shènghuì","m":"đại hội","c":"TC2-1b","t":"vocab","u":"","pt":"","s":""},{"h":"汇聚一处","p":"","m":"tụ tập vê 1 chỗ","c":"TC2-1b","t":"vocab","u":"","pt":"","s":"来自世界各地的运动员___，共同参加这场盛会。"},{"h":"在……掌控之中","p":"zài…zhǎngkòng zhīzhōng","m":"nằm trong tầm kiểm soát của ai đó","c":"TC2-1b","t":"grammar","u":"\"Nằm trong tầm kiểm soát của…\". VD: 一切都在他的掌控之中 (Mọi thứ đều nằm trong tầm kiểm soát của anh ấy).","pt":"在……掌控之中","s":""},{"h":"把……归咎于","p":"bǎ…guījiùyú","m":"đổ lỗi cho…","c":"TC2-1b","t":"grammar","u":"\"Đổ lỗi cho…\". VD: 他把失败归咎于运气不好 (Anh ta đổ lỗi thất bại cho vận rủi).","pt":"把……归咎于","s":""},{"h":"潦草","p":"liáocǎo","m":"nghuêachj ngoạc","c":"TC2-1b","t":"vocab","u":"","pt":"","s":"他写的字十分___，别人几乎看不清楚。"},{"h":"诙谐","p":"huīxié","m":"khôi hài","c":"TC2-1b","t":"vocab","u":"","pt":"","s":"老师讲课时经常用___的语言，让课堂气氛十分轻松。"},{"h":"手绢","p":"shǒujuàn","m":"khăn tay","c":"TC2-1b","t":"vocab","u":"","pt":"","s":""},{"h":"编撰","p":"biānzhuàn","m":"biên soạn","c":"TC2-1b","t":"vocab","u":"","pt":"","s":"这部辞典是几位专家花费十年时间___而成的。"},{"h":"抚摸","p":"fǔmō","m":"vuốt ve, xoa","c":"TC2-1b","t":"vocab","u":"","pt":"","s":"她轻轻___着小猫的毛，猫咪发出满足的叫声。"},{"h":"钙","p":"gài","m":"canxi","c":"TC2-1b","t":"vocab","u":"","pt":"","s":""},{"h":"胆固醇","p":"dǎngùchún","m":"cholesterol","c":"TC2-1b","t":"vocab","u":"","pt":"","s":""},{"h":"拉扯","p":"lāche","m":"dây dưa mập mờ","c":"TC2-1b","t":"vocab","u":"","pt":"","s":"两人的关系一直___不清，谁也不肯先说清楚。"},{"h":"亟需","p":"jíxū","m":"cần gấp","c":"TC2-1b","t":"vocab","u":"","pt":"","s":"灾区目前___大量的食物和医疗物资。"},{"h":"暴露无遗","p":"","m":"phơi bày ra hoàn toàn (nghĩa tiêu cực)","c":"TC2-1b","t":"vocab","u":"","pt":"","s":"在压力之下，他的缺点终于___。"},{"h":"该","p":"gāi","m":"cái đó, việc đó (văn viết trang trọng)","c":"TC2-1b","t":"grammar","u":"Dùng trong văn viết trang trọng thay cho 这/那. VD: 该公司成立于2010年 (Công ty đó được thành lập vào năm 2010).","pt":"该 = 这/那","s":""},{"h":"尖端","p":"","m":"mũi nhọn","c":"TC2-1b","t":"vocab","u":"","pt":"","s":""},{"h":"跨地域","p":"","m":"xuyên khu vực","c":"TC2-1b","t":"vocab","u":"","pt":"","s":""},{"h":"呼吁","p":"hūyù","m":"kêu gọi","c":"TC2-1b","t":"vocab","u":"","pt":"","s":"环保组织不断___大家减少使用一次性塑料制品。"},{"h":"瞬息","p":"shùnxī","m":"trong phuts chốc","c":"TC2-1b","t":"vocab","u":"","pt":"","s":""},{"h":"刻不容缓","p":"","m":"vô cùng cấp bách","c":"TC2-1b","t":"vocab","u":"","pt":"","s":"环境污染问题已经___，必须立刻采取行动。"},{"h":"栖息地","p":"","m":"môi trường sống","c":"TC2-1b","t":"vocab","u":"","pt":"","s":""},{"h":"分道扬镳","p":"fēndàoyángbiāo","m":"mỗi người một ngã","c":"TC2-1b","t":"vocab","u":"","pt":"","s":"由于理念不合，两位创始人最终选择了___。"},{"h":"签署","p":"","m":"ký","c":"TC2-1b","t":"vocab","u":"","pt":"","s":"双方代表在合同上正式___了协议。"},{"h":"部署","p":"","m":"sắp đặt, bố trí","c":"TC2-1b","t":"vocab","u":"","pt":"","s":"公司已经___好了下一季度的市场推广计划。"},{"h":"文献","p":"","m":"tài liệu tham khảo","c":"TC2-1b","t":"vocab","u":"","pt":"","s":""},{"h":"罹患","p":"līhuàn","m":"mắc","c":"TC2-1b","t":"vocab","u":"","pt":"","s":"长期熬夜、饮食不规律容易使人___各种慢性疾病。"},{"h":"脂蛋白","p":"","m":"lipid protenin","c":"TC2-1b","t":"vocab","u":"","pt":"","s":""},{"h":"密度","p":"","m":"mật độ, tỷ trọng","c":"TC2-1b","t":"vocab","u":"","pt":"","s":""},{"h":"代谢","p":"","m":"trao đổi chất","c":"TC2-1b","t":"vocab","u":"","pt":"","s":""},{"h":"情绪价值","p":"qíngxùjiàzhí","m":"giá trị cảm xúc","c":"TC2-1b","t":"vocab","u":"","pt":"","s":""},{"h":"拼车","p":"pīnchē","m":"ghép xe","c":"TC2-1b","t":"vocab","u":"","pt":"","s":""},{"h":"嘘寒问暖","p":"xū hán wèn nuǎn","m":"ân cần hỏi han","c":"TC2-1b","t":"vocab","u":"","pt":"","s":"每次回家，妈妈总是___，让人感到十分温暖。"},{"h":"窒息","p":"zhìxī","m":"ngột ngạt","c":"TC2-1b","t":"vocab","u":"","pt":"","s":"拥挤的车厢让她感到有些___，几乎喘不过气来。"},{"h":"搭子","p":"dāzi","m":"người đồng hành","c":"TC2-1b","t":"vocab","u":"","pt":"","s":""},{"h":"敷衍","p":"fūyǎn","m":"qua loa , hời hợt","c":"TC2-1b","t":"vocab","u":"","pt":"","s":"他对待工作总是___了事，从不认真对待。"},{"h":"AA 制","p":"","m":"chia đôi tiền","c":"TC2-1b","t":"vocab","u":"","pt":"","s":""},{"h":"倾诉","p":"qīngsù","m":"tâm sự","c":"TC2-1b","t":"vocab","u":"","pt":"","s":"遇到烦心事，她总喜欢向闺蜜___。"},{"h":"薄","p":"báo- 厚","m":"mỏng - dày","c":"TC2-1b","t":"vocab","u":"","pt":"","s":""},{"h":"拉黑","p":"lāhēi","m":"block","c":"TC2-1b","t":"vocab","u":"","pt":"","s":"因为对方总是骚扰她，她最终选择把他___了。"},{"h":"砸","p":"zá","m":"đập","c":"TC2-1b","t":"vocab","u":"","pt":"","s":"一不小心，他把手里的花瓶___在了地上。"},{"h":"掏心掏肺","p":"","m":"dốc hết tâm sự","c":"TC2-1b","t":"vocab","u":"","pt":"","s":"朋友之间就应该___，坦诚相待。"},{"h":"两肋插刀","p":"liǎng lèi chā dāo","m":"sẵn sàng hy sinh vì bạn bè","c":"TC2-1b","t":"vocab","u":"","pt":"","s":""},{"h":"冷暴力","p":"lěng bàolì","m":"bạo lực lạnh","c":"TC2-1b","t":"vocab","u":"","pt":"","s":""},{"h":"边界感","p":"biān jiè gǎn","m":"cảm giác ranh giới","c":"TC2-1b","t":"vocab","u":"","pt":"","s":""},{"h":"绑定","p":"bǎngdìng","m":"trói buộc","c":"TC2-1b","t":"vocab","u":"","pt":"","s":"很多手机应用都需要___个人账号才能使用。"},{"h":"各取所需","p":"","m":"mỗi người lấy thứ mình cần","c":"TC2-1b","t":"vocab","u":"","pt":"","s":""},{"h":"中间值","p":"zhōngjiānzhí","m":"giá trị nằm giữa","c":"TC2-1b","t":"vocab","u":"","pt":"","s":""},{"h":"尴尬","p":"gāngà","m":"ngượng ngùng","c":"TC2-1b","t":"vocab","u":"","pt":"","s":"在众人面前忘记对方的名字，让他感到十分___。"},{"h":"弥补遗憾","p":"míbǔ yíhàn","m":"bù đắp nuối tiếc","c":"TC2-1b","t":"vocab","u":"","pt":"","s":""},{"h":"精神内耗","p":"jīngshén hàohào","m":"hao mòn cảm xúc","c":"TC2-1b","t":"vocab","u":"","pt":"","s":"长期焦虑担忧会造成严重的___，让人身心俱疲。"},{"h":"陶罐","p":"táoguàn","m":"bình gốm","c":"TC2-1b","t":"vocab","u":"","pt":"","s":""},{"h":"其貌不扬","p":"qí mào bù yáng","m":"vẻ ngoài không đẹp mắt","c":"TC2-1b","t":"vocab","u":"","pt":"","s":"别看他___，其实内心非常有智慧。"},{"h":"赝品","p":"yànpin","m":"đồ giả","c":"TC2-1b","t":"vocab","u":"","pt":"","s":"经过专家鉴定，这幅所谓的名画其实是一件___。"},{"h":"疑神疑鬼","p":"yí shén yí guǐ","m":"nghi thần nghi quỷ","c":"TC2-1b","t":"vocab","u":"","pt":"","s":"自从丢了钱包以后，他就变得___，怀疑每一个人。"},{"h":"勃然大怒","p":"bó rán dà nù","m":"cực kỳ giận","c":"TC2-1b","t":"vocab","u":"","pt":"","s":"听到这个消息，他当场___，摔门而去。"},{"h":"发作","p":"fāzuò","m":"phát tát, lên cơn, phát cáu","c":"TC2-1b","t":"vocab","u":"","pt":"","s":"他的老毛病最近又开始___了，医生建议他多休息。"},{"h":"缠绕","p":"chán rào","m":"quấy rầy","c":"TC2-1b","t":"vocab","u":"","pt":"","s":"藤蔓紧紧地___在老树的树干上。"},{"h":"纠缠","p":"jiūchán","m":"vướng mắc, vướng xíu,dây dưa","c":"TC2-1b","t":"vocab","u":"","pt":"","s":"这件事情已经过去了，别再继续___了。"},{"h":"束缚","p":"shùfù","m":"trói buộc","c":"TC2-1b","t":"vocab","u":"","pt":"","s":"过时的观念常常___着人们的思想和行为。"},{"h":"孕妇","p":"yùnfù","m":"phụ nữ có thai","c":"TC2-1b","t":"vocab","u":"","pt":"","s":""},{"h":"遵医嘱","p":"zūn yī zhǔ","m":"tuân theo chỉ định bác sĩ","c":"TC2-1b","t":"vocab","u":"","pt":"","s":"术后恢复期间一定要___，按时吃药、定期复查。"},{"h":"破译","p":"pòyì","m":"giả mã, phá giả","c":"TC2-1b","t":"vocab","u":"","pt":"","s":""},{"h":"躲","p":"duǒ","m":"núp","c":"TC2-1b","t":"vocab","u":"","pt":"","s":"小孩子调皮，一看到妈妈生气就赶紧___了起来。"},{"h":"藏","p":"cáng","m":"trốn","c":"TC2-1b","t":"vocab","u":"","pt":"","s":"他把秘密一直___在心里，从没告诉过任何人。"},{"h":"畅销","p":"chàngxiāo","m":"bán chạy","c":"TC2-1b","t":"vocab","u":"","pt":"","s":"这本小说自出版以来一直非常___，几乎家喻户晓。"},{"h":"热捧","p":"rèpěng","m":"cơn sốt, trào lưu","c":"TC2-1b","t":"vocab","u":"","pt":"","s":"这种新式甜品最近在网络上受到年轻人的___。"},{"h":"干扰","p":"gānrǎo","m":"quấy rầy, quáy nhiễu, phiền nhiễu","c":"TC2-1b","t":"vocab","u":"","pt":"","s":"工地的噪音严重___了周围居民的正常生活。"},{"h":"虚荣心","p":"xūróngxīn","m":"tâm lý hư vinh, tự mãn, sĩ diện","c":"TC2-1b","t":"vocab","u":"","pt":"","s":"过强的___让他总想通过名牌来证明自己的价值。"},{"h":"全力以赴","p":"","m":"nỗ lực hết mình","c":"TC2-1b","t":"vocab","u":"","pt":"","s":"为了这次比赛，他___地训练了整整一年。"},{"h":"不尽人意","p":"bújìnrényì","m":"không được như ý","c":"TC2-1b","t":"vocab","u":"","pt":"","s":""},{"h":"竭尽全力","p":"jiéjìnquánlì","m":"dốc hết toàn lực","c":"TC2-1b","t":"vocab","u":"","pt":"","s":""},{"h":"上涨","p":"shàngzhǎng","m":"tăng","c":"TC2-1b","t":"vocab","u":"","pt":"","s":"最近这一带的房价一直在持续___。"},{"h":"利息","p":"lìxī","m":"tiền lãi","c":"TC2-1b","t":"vocab","u":"","pt":"","s":""},{"h":"处女作","p":"chǔnǚzuò","m":"tác phẩm đầu tay","c":"TC2-1b","t":"vocab","u":"","pt":"","s":""},{"h":"炙手可热","p":"zhìshǒukěrè","m":"quyền thế rất mạnh/ rất hot","c":"TC2-1b","t":"vocab","u":"","pt":"","s":"这位新人演员近年来非常___，接连出演多部热门剧。"},{"h":"羞涩","p":"xiūsè","m":"bẽn lẽn, ngại ngùng","c":"TC2-1b","t":"vocab","u":"","pt":"","s":"面对喜欢的人，她总是显得十分___，不敢主动搭话。"},{"h":"苦涩","p":"kǔsè","m":"cay đắng, đắng chát","c":"TC2-1b","t":"vocab","u":"","pt":"","s":"这段感情结束后，他心里满是___的滋味。"},{"h":"泛泛之交","p":"","m":"mối quan hệ xã giao","c":"TC2-1b","t":"vocab","u":"","pt":"","s":"他们只是___，并没有太深的交情。"},{"h":"经得起挫折","p":"","m":"chịu được những thất bại/ khó khăn","c":"TC2-1b","t":"vocab","u":"","pt":"","s":"一个人要想成功，就必须___，勇敢面对失败。"},{"h":"敢于承担后果","p":"gǎnyú chéngdān hòuguǒ","m":"dám gánh chịu hậu quả","c":"TC2-1b","t":"vocab","u":"","pt":"","s":"做任何决定之前，都要问问自己是否___。"},{"h":"沧海桑田","p":"cānghǎisāngtián","m":"thăng trầm của đời người","c":"TC2-1b","t":"vocab","u":"","pt":"","s":""},{"h":"人生的起起落落","p":"rénshēng de qǐqǐluòluò","m":"những thăng trầm của cuộc đời","c":"TC2-1b","t":"vocab","u":"","pt":"","s":""},{"h":"经历磨难","p":"jīnglì mónàn","m":"trải qua gian nan, khổ nạn","c":"TC2-1b","t":"vocab","u":"","pt":"","s":""},{"h":"接人待物","p":"jiērén dàiwù","m":"đối nhân xử thế (giao tiếp, cư xử với người khác)","c":"TC2-1b","t":"vocab","u":"","pt":"","s":""},{"h":"风轻云淡","p":"","m":"tâm thái nhẹ nhàng","c":"TC2-1b","t":"vocab","u":"","pt":"","s":""},{"h":"日久见人心","p":"","m":"lâu ngày mới biêts được lòng người","c":"TC2-1b","t":"vocab","u":"","pt":"","s":""},{"h":"一见钟情","p":"","m":"yêu từ cái nhìn đâu tiên","c":"TC2-1b","t":"vocab","u":"","pt":"","s":""},{"h":"以貌取人","p":"","m":"đánh giá con ngừoi qua vẻ bề ngoài","c":"TC2-1b","t":"vocab","u":"","pt":"","s":"面试官不应该___，而要注重考察实际能力。"},{"h":"宰相肚里能撑船","p":"zǎixiàng dùlǐ néng chēngchuán","m":"bụng tể tướng chèo được thuyền (lòng dạ bao dung, độ lượng)","c":"TC2-1b","t":"vocab","u":"","pt":"","s":""},{"h":"计较","p":"","m":"so đo tính toán","c":"TC2-1b","t":"vocab","u":"","pt":"","s":"他从不与人___小事，性格十分大度。"},{"h":"荣辱","p":"","m":"vinh nhục","c":"TC2-1b","t":"vocab","u":"","pt":"","s":"他把个人的___看得很淡，只专注于把事情做好。"},{"h":"胸怀大志","p":"","m":"có hoài bão lớn","c":"TC2-1b","t":"vocab","u":"","pt":"","s":"他从小就___，立志要为国家做出贡献。"},{"h":"胸襟开阔","p":"","m":"có tấm lòng rộng mở","c":"TC2-1b","t":"vocab","u":"","pt":"","s":"作为一名领导，一定要___，善于听取不同意见。"},{"h":"付出……代价","p":"fùchū…dàijià","m":"trả giá cho…","c":"TC2-1b","t":"grammar","u":"\"Trả giá cho…\". VD: 他为这个错误付出了沉重的代价 (Anh ấy đã trả giá đắt cho sai lầm này).","pt":"付出……代价","s":""},{"h":"耗尽万贯家财","p":"hàojìn wànguàn jiācái","m":"tiêu tán hết cả gia tài","c":"TC2-1b","t":"vocab","u":"","pt":"","s":""},{"h":"杰作","p":"jiézuò","m":"kiệt tác","c":"TC2-1b","t":"vocab","u":"","pt":"","s":""},{"h":"抒情诗","p":"shūqíngshī","m":"thơ trữ tình","c":"TC2-1b","t":"vocab","u":"","pt":"","s":""},{"h":"脍炙人口","p":"kuàizhìrénkǒu","m":"được biết đến và truyền tụng rộng rãi","c":"TC2-1b","t":"vocab","u":"","pt":"","s":""},{"h":"搏杀","p":"bóshā","m":"tàn sát","c":"TC2-1b","t":"vocab","u":"","pt":"","s":""},{"h":"理赔能力","p":"lǐpéi","m":"khả năng giải quyết/ bồi thường bảo hiểm","c":"TC2-1b","t":"vocab","u":"","pt":"","s":""},{"h":"配偶","p":"pèiǒu","m":"bạn đời","c":"TC2-1b","t":"vocab","u":"","pt":"","s":""},{"h":"应酬","p":"yìngchou","m":"xã giao, tiếp khách","c":"TC2-1b","t":"vocab","u":"","pt":"","s":"工作以后，他常常需要参加各种商务___。"},{"h":"狭长","p":"xiácháng","m":"hẹp dài","c":"TC2-1b","t":"vocab","u":"","pt":"","s":"这条___的胡同两旁排满了各式各样的小店。"},{"h":"粮仓","p":"liángcāng","m":"kho lương thực, vựa lúa","c":"TC2-1b","t":"vocab","u":"","pt":"","s":""},{"h":"刻苦钻研","p":"kèkǔ zuānyán","m":"nghiên cứu chăm chỉ","c":"TC2-1b","t":"vocab","u":"","pt":"","s":"他多年来一直___这个领域的技术难题。"},{"h":"健康危机","p":"jiànkāng wēijī","m":"khủng hoảng sức khoẻ","c":"TC2-1c","t":"vocab","u":"","pt":"","s":"长期加班熬夜，让越来越多的年轻人面临着严重的___。"},{"h":"垃圾食品","p":"lājī shípǐn","m":"đồ ăn vặt, thức ăn rác (fast food, nhiều dầu mỡ)","c":"TC2-1c","t":"vocab","u":"","pt":"","s":"长期吃___不仅容易发胖，还会增加患病的风险。"},{"h":"垃圾饮料","p":"lājī yǐnliào","m":"đồ uống có hại (nước ngọt có ga...)","c":"TC2-1c","t":"vocab","u":"","pt":"","s":""},{"h":"买单","p":"=付款=付钱","m":"thanh toán","c":"TC2-1c","t":"vocab","u":"","pt":"","s":"这顿饭就让我来___吧，你上次已经请过我了。"},{"h":"不以为然","p":"","m":"không cho là đúng","c":"TC2-1c","t":"vocab","u":"","pt":"","s":"对于同事的建议，他一直___，坚持自己的做法。"},{"h":"拼事业","p":"pīn shìyè","m":"dốc sức vì sự nghiệp","c":"TC2-1c","t":"vocab","u":"","pt":"","s":"为了___，他连续几年都没有好好休息过。"},{"h":"还贷款","p":"huán dàikuǎn","m":"trả nợ vay, trả góp","c":"TC2-1c","t":"vocab","u":"","pt":"","s":"他每个月的工资，一大半都用来___了。"},{"h":"养家庭","p":"yǎng jiātíng","m":"nuôi gia đình","c":"TC2-1c","t":"vocab","u":"","pt":"","s":""},{"h":"肆意","p":"sìyì","m":"tuỳ tiện, mặc ý","c":"TC2-1c","t":"vocab","u":"","pt":"","s":"他在网上___发表不负责任的言论，遭到了大家的批评。"},{"h":"透支","p":"tòuzhī","m":"vắt cạn kiệt","c":"TC2-1c","t":"vocab","u":"","pt":"","s":"长期加班熬夜，等于在___自己的健康。"},{"h":"拼命赚钱","p":"pīnmìng zhuànqián","m":"liều mạng kiếm tiền, kiếm tiền bằng mọi giá","c":"TC2-1c","t":"vocab","u":"","pt":"","s":""},{"h":"算账","p":"suànzhàng","m":"tính toán, tính sổ","c":"TC2-1c","t":"vocab","u":"","pt":"","s":"月底的时候，他都会仔细___一下这个月的开销。"},{"h":"扛下了一切","p":"kángxiàle yíqiè","m":"gánh vác hết tất cả","c":"TC2-1c","t":"vocab","u":"","pt":"","s":""},{"h":"熬过","p":"","m":"trải qua (một cách khó khăn), phải chịu đựng đê vượt qua","c":"TC2-1c","t":"vocab","u":"","pt":"","s":"他咬牙___了创业最艰难的那几年。"},{"h":"喘口气","p":"chuǎnkǒuqì","m":"thở,  nghỉ ngơi(sau quá trình bận rộn)","c":"TC2-1c","t":"vocab","u":"","pt":"","s":"工作了一整天，终于可以坐下来___了。"},{"h":"喘不过气来","p":"chuǎnbúguòqìlái","m":"thở không ra hơi, ngộp thở (vì áp lực quá lớn)","c":"TC2-1c","t":"vocab","u":"","pt":"","s":""},{"h":"配偶","p":"","m":"vợ/ chồng","c":"TC2-1c","t":"vocab","u":"","pt":"","s":""},{"h":"顶梁柱","p":"dǐngliángzhù","m":"trụ cột gđ","c":"TC2-1c","t":"vocab","u":"","pt":"","s":""},{"h":"拿命换钱最悲哀的结局","p":"námìng huànqián zuì bēiāi de jiéjú","m":"lấy mạng đổi tiền là kết cục bi thảm nhất","c":"TC2-1c","t":"vocab","u":"","pt":"","s":""},{"h":"心梗","p":"xīngěng","m":"bệnh đau tim","c":"TC2-1c","t":"vocab","u":"","pt":"","s":"由于长期压力过大、作息紊乱，他突发___住进了医院。"},{"h":"梗","p":"gěng","m":"hài hước","c":"TC2-1c","t":"vocab","u":"","pt":"","s":""},{"h":"肿瘤","p":"zhǒngliú","m":"khối u","c":"TC2-1c","t":"vocab","u":"","pt":"","s":"体检报告显示，他的肺部长了一个良性___。"},{"h":"肝脏","p":"gān zàng","m":"lá gan","c":"TC2-1c","t":"vocab","u":"","pt":"","s":"长期大量饮酒会严重损害人的___。"},{"h":"超负荷","p":"chāo fùhè","m":"quá tải, quá sức","c":"TC2-1c","t":"vocab","u":"","pt":"","s":"连续加班一个月，他的身体已经处于___运转的状态。"},{"h":"刺痛","p":"cìtōng","m":"đau nhói","c":"TC2-1c","t":"vocab","u":"","pt":"","s":"他突然感到胸口一阵___，赶紧去医院检查。"},{"h":"胸口","p":"xiōngkǒu","m":"ngực, lồng ngực","c":"TC2-1c","t":"vocab","u":"","pt":"","s":""},{"h":"频繁","p":"pínfán","m":"nhiều lần, dày đặt","c":"TC2-1c","t":"vocab","u":"","pt":"","s":"最近他因为压力太大，头痛的次数越来越___。"},{"h":"悬崖","p":"xuányá","m":"vách đá, vách núi","c":"TC2-1c","t":"vocab","u":"","pt":"","s":""},{"h":"通牒","p":"tōng dié","m":"thông điệp, tối hậu thư","c":"TC2-1c","t":"vocab","u":"","pt":"","s":""},{"h":"衰老","p":"shuài lǎo","m":"già đi, lão hoá","c":"TC2-1c","t":"vocab","u":"","pt":"","s":"过度劳累和长期熬夜会加速人体的___。"},{"h":"衰退","p":"shuàituì","m":"suy thoái, suy yếu","c":"TC2-1c","t":"vocab","u":"","pt":"","s":"由于经济___，很多企业不得不裁员。"},{"h":"肾脏","p":"shènzàng","m":"thận, quả thận","c":"TC2-1c","t":"vocab","u":"","pt":"","s":""},{"h":"衰竭","p":"shuàijié","m":"suy kiệt (sức khoẻ)","c":"TC2-1c","t":"vocab","u":"","pt":"","s":"由于长期未得到治疗，他的肾功能逐渐走向___。"},{"h":"胰岛功能","p":"yí dǎo","m":"chức năng của đảo tuỵ","c":"TC2-1c","t":"vocab","u":"","pt":"","s":""},{"h":"拖累","p":"tuōlěi","m":"làm liên luỵ","c":"TC2-1c","t":"vocab","u":"","pt":"","s":"他生病住院，给整个家庭的经济都带来了___。"},{"h":"塌","p":"tā","m":"đổ, sụp","c":"TC2-1c","t":"vocab","u":"","pt":"","s":"由于地基不稳，这栋老房子的墙壁突然___了下来。"},{"h":"脂肪酸","p":"zhīfángsuān","m":"axit béo","c":"TC2-1c","t":"vocab","u":"","pt":"","s":""},{"h":"防腐剂","p":"fángfǔjì","m":"chất bảo quản","c":"TC2-1c","t":"vocab","u":"","pt":"","s":"食品包装上通常会标注是否添加了___。"},{"h":"灌","p":"guàn","m":"tưới, dẫn nước","c":"TC2-1c","t":"vocab","u":"","pt":"","s":""},{"h":"腹肌","p":"fùjī","m":"cơ bụng","c":"TC2-1c","t":"vocab","u":"","pt":"","s":"他每天坚持锻炼，练出了一身漂亮的___。"},{"h":"存款","p":"","m":"tiền tiết kiệm","c":"TC2-1c","t":"vocab","u":"","pt":"","s":"为了买房，他把这些年的___都拿了出来。"},{"h":"赌","p":"dǔ","m":"đặt cược, cá cược","c":"TC2-1c","t":"vocab","u":"","pt":"","s":"他把所有的积蓄都拿去___，最后输得一无所有。"},{"h":"区区","p":"qūqū","m":"nhỏ bé không đáng kể","c":"TC2-1d","t":"vocab","u":"","pt":"","s":"___几百块钱，对他来说根本不算什么。"},{"h":"窝囊","p":"wònang","m":"bất lực, hèn nhát, kém cỏi","c":"TC2-1d","t":"vocab","u":"","pt":"","s":"被人欺负了还不敢反抗，他觉得自己太___了。"},{"h":"囊括","p":"nángkuò","m":"thâu tóm bao trùm","c":"TC2-1d","t":"vocab","u":"","pt":"","s":"这支队伍几乎___了本次比赛的所有奖项。"},{"h":"笃","p":"dǔ","m":"thật thà","c":"TC2-1d","t":"vocab","u":"","pt":"","s":""},{"h":"殷实","p":"yīnshí","m":"giàu có, sung túc","c":"TC2-1d","t":"vocab","u":"","pt":"","s":"他出身于一个家境___的书香门第。"},{"h":"我行我素","p":"","m":"làm theo ý mình","c":"TC2-1d","t":"vocab","u":"","pt":"","s":"无论别人怎么劝，他依然___，不肯改变自己的做法。"},{"h":"紧锣密鼓","p":"jǐnluómìgǔ","m":"khua chiêng gõ trống","c":"TC2-1d","t":"vocab","u":"","pt":"","s":"婚礼的各项准备工作正在___地进行中。"},{"h":"穷追不舍","p":"qióngzhuībùshě","m":"đuổi cùng không buông","c":"TC2-1d","t":"vocab","u":"","pt":"","s":"记者们对这条爆炸性新闻___，非要挖出真相不可。"},{"h":"一晃","p":"","m":"một thoáng, chớp mắt","c":"TC2-1d","t":"vocab","u":"","pt":"","s":"___十年过去了，当年的孩子如今都已经长大成人。"},{"h":"未尝","p":"wèicháng","m":"không hẳn","c":"TC2-1d","t":"vocab","u":"","pt":"","s":"他的这次失败，___不是一件好事，让他学到了很多。"},{"h":"沉得住气","p":"chén dé zhù qì","m":"giữ được bình tĩnh","c":"TC2-1d","t":"vocab","u":"","pt":"","s":"面对突发状况，他依然___，冷静地处理问题。"},{"h":"逢","p":"féng","m":"gặp","c":"TC2-1d","t":"vocab","u":"","pt":"","s":""},{"h":"三年五载","p":"sānniánwǔzǎi","m":"dăm ba năm, vài năm","c":"TC2-1d","t":"vocab","u":"","pt":"","s":""},{"h":"载","p":"zǎi","m":"năm","c":"TC2-1d","t":"vocab","u":"","pt":"","s":""},{"h":"撬开","p":"qiàokāi","m":"mở, cạy","c":"TC2-1d","t":"vocab","u":"","pt":"","s":""},{"h":"燃眉之急","p":"rán méi zhī jí","m":"tình thế cấp bách","c":"TC2-1d","t":"vocab","u":"","pt":"","s":"这笔资金正好解决了公司的___。"},{"h":"歇斯底里","p":"xiēsīdǐlǐ","m":"phát rồ","c":"TC2-1d","t":"vocab","u":"","pt":"","s":"得知真相后，她情绪失控，___地哭喊起来。"},{"h":"万般","p":"wàn bān","m":"vô cùng","c":"TC2-1d","t":"vocab","u":"","pt":"","s":""},{"h":"若非","p":"ruòfēi","m":"nếu không","c":"TC2-1d","t":"vocab","u":"","pt":"","s":"___你及时提醒，我差点就忘记了这件重要的事。"},{"h":"巷子","p":"xiàngzi","m":"hẻm, ngõ","c":"TC2-1d","t":"vocab","u":"","pt":"","s":""},{"h":"硬撑","p":"yìngchēng","m":"gắng gượng, gồng mình","c":"TC2-1d","t":"vocab","u":"","pt":"","s":"身体已经很不舒服了，他还是___着去上班。"},{"h":"推卸","p":"tuīxiè","m":"chối từ, đẩy trách nhiệm","c":"TC2-1d","t":"vocab","u":"","pt":"","s":"犯了错误就要承担责任，不能一味地___。"},{"h":"浩瀚","p":"hàohàn","m":"cuồn cuộn, mênh mông bát ngát","c":"TC2-1d","t":"vocab","u":"","pt":"","s":"站在海边，望着___的大海，他感到自己无比渺小。"},{"h":"尚=还","p":"shàng","m":"vẫn còn (văn viết trang trọng)","c":"TC2-1d","t":"grammar","u":"Dùng trong văn viết trang trọng, tương đương với 还. VD: 他尚未回来 (Anh ấy vẫn chưa về).","pt":"尚 = 还","s":""},{"h":"开辟","p":"kāipì","m":"mở rộng khai thác","c":"TC2-1d","t":"vocab","u":"","pt":"","s":"公司决定___一条新的销售渠道，开拓海外市场。"},{"h":"笃信","p":"dǔxìn","m":"vững tin","c":"TC2-1d","t":"vocab","u":"","pt":"","s":"他一直___努力就一定会有回报。"},{"h":"饲养","p":"sìyǎng","m":"nuôi, chăn nuôi","c":"TC2-1d","t":"vocab","u":"","pt":"","s":"这个农场专门___各种珍稀鸟类。"},{"h":"废墟","p":"fèixū","m":"đống hoang tàn","c":"TC2-1d","t":"vocab","u":"","pt":"","s":"地震过后，昔日繁华的街道变成了一片___。"},{"h":"衣衫褴褛","p":"yīshānlánlǚ","m":"áo quần rách rưới","c":"TC2-1d","t":"vocab","u":"","pt":"","s":"路边坐着一位___的老人，正在乞讨。"},{"h":"征兆","p":"zhēngzhào","m":"điềm báo","c":"TC2-1d","t":"vocab","u":"","pt":"","s":"身体出现这些___的时候，一定要及时就医。"},{"h":"老鹰","p":"lǎoyīng","m":"diều hâu","c":"TC2-1d","t":"vocab","u":"","pt":"","s":""},{"h":"雄鹰","p":"xióngyīng","m":"đại bàng","c":"TC2-1d","t":"vocab","u":"","pt":"","s":""},{"h":"鸽子","p":"gēzi","m":"bồ câu","c":"TC2-1d","t":"vocab","u":"","pt":"","s":""},{"h":"放鸽子","p":"","m":"cho leo cây, thất hứa","c":"TC2-1d","t":"vocab","u":"","pt":"","s":"他约好和朋友见面，结果又一次___，让人很生气。"},{"h":"满怀憧憬","p":"mǎnhuáichōngjǐng","m":"tràn đầy khao khát/ hy vọng","c":"TC2-1d","t":"vocab","u":"","pt":"","s":"刚步入大学校园，他对未来的生活___。"},{"h":"心灰意冷","p":"xīnhuīyìlěng","m":"nản chí, nản lòng","c":"TC2-1d","t":"vocab","u":"","pt":"","s":"接连几次面试失败，让他一度感到___。"},{"h":"磨合","p":"móhe","m":"thích nghi, hoà hợp","c":"TC2-1d","t":"vocab","u":"","pt":"","s":"两个人刚开始合作，需要一段时间来___彼此的做事方式。"},{"h":"赌气","p":"dǔqì","m":"hờn dỗi","c":"TC2-1d","t":"vocab","u":"","pt":"","s":"因为一点小事，她就和男朋友___，好几天不说话。"},{"h":"赌博","p":"dǔbó","m":"đánh bạc, cờ bạc","c":"TC2-1d","t":"vocab","u":"","pt":"","s":"沉迷于___不仅伤害身体，还会让人倾家荡产。"},{"h":"蘸","p":"zhàn","m":"chấm","c":"TC2-1d","t":"vocab","u":"","pt":"","s":""},{"h":"树荫","p":"shǔ yīn","m":"bóng cây","c":"TC2-1d","t":"vocab","u":"","pt":"","s":"老人们喜欢在夏天坐在___下乘凉聊天。"},{"h":"捋","p":"lǚ","m":"sắp xếp/ làm rõ manchj suy nghĩ","c":"TC2-1d","t":"vocab","u":"","pt":"","s":""},{"h":"憔悴","p":"qiáocuì","m":"tiều tuỵ","c":"TC2-1d","t":"vocab","u":"","pt":"","s":"连续加班了一个星期，他看起来非常___。"},{"h":"绷不住","p":"bèng bú zhù","m":"không chịu được, không nhịn được","c":"TC2-1d","t":"vocab","u":"","pt":"","s":""},{"h":"粤语","p":"yuèyǔ","m":"tiếng Quảng Đông","c":"TC2-1d","t":"vocab","u":"","pt":"","s":"他在广州工作多年，也学会了一口流利的___。"},{"h":"八大菜系","p":"","m":"hệ thống 8 trường phái ẩm thực của trung hoa","c":"TC2-1d","t":"vocab","u":"","pt":"","s":""},{"h":"鲁菜","p":"lǔ cài","m":"Sơn Đông","c":"TC2-1d","t":"vocab","u":"","pt":"","s":""},{"h":"湘菜","p":"xiāngcài","m":"湖南菜","c":"TC2-1d","t":"vocab","u":"","pt":"","s":""},{"h":"寄生虫","p":"jìshēngchóng","m":"ký sinh trùng","c":"TC2-1d","t":"vocab","u":"","pt":"","s":"这种___会寄生在人体的肠道内，影响健康。"},{"h":"卵","p":"luǎn","m":"trứng","c":"TC2-1d","t":"vocab","u":"","pt":"","s":""},{"h":"卵巢","p":"luǎncháo","m":"buồng trứng","c":"TC2-1d","t":"vocab","u":"","pt":"","s":""},{"h":"掩耳盗铃","p":"yǎn ěr dào líng","m":"bịt tai trộm chuông, tự lừa dối mình","c":"TC2-1d","t":"vocab","u":"","pt":"","s":"明明大家都知道真相，他还要撒谎否认，简直是___。"},{"h":"自欺欺人","p":"","m":"lừa mình dối người","c":"TC2-1d","t":"vocab","u":"","pt":"","s":"明知道事情已经无法挽回，他却还在___地安慰自己。"},{"h":"不顾一切","p":"búgù yíqiè","m":"bất chấp tất cả","c":"TC2-1d","t":"vocab","u":"","pt":"","s":"为了救孩子，母亲___地冲进了火场。"},{"h":"顾面子","p":"","m":"quan tâm thể diện","c":"TC2-1d","t":"vocab","u":"","pt":"","s":"他这个人特别___，即使做错了也不肯承认。"},{"h":"外线","p":"","m":"vòng ngoài","c":"TC2-1d","t":"vocab","u":"","pt":"","s":""},{"h":"射手","p":"","m":"xạ thủ","c":"TC2-1d","t":"vocab","u":"","pt":"","s":""},{"h":"退役","p":"tuì yì","m":"giải nghệ","c":"TC2-1d","t":"vocab","u":"","pt":"","s":"这位老将在为国效力二十年后正式宣布___。"},{"h":"征战","p":"zhēngzhàn","m":"chinh chiến","c":"TC2-1d","t":"vocab","u":"","pt":"","s":"这支球队即将远赴海外，___世界杯赛场。"},{"h":"摇篮","p":"yáolán","m":"cái nôi","c":"TC2-1d","t":"vocab","u":"","pt":"","s":"这座城市被誉为中国现代工业的___。"},{"h":"批","p":"pī","m":"lô, đợt","c":"TC2-1d","t":"vocab","u":"","pt":"","s":""},{"h":"前沿","p":"qiányán","m":"đi đầu, tuyến đầu","c":"TC2-1d","t":"vocab","u":"","pt":"","s":"他一直从事人工智能领域最___的研究工作。"},{"h":"学为人师，行为世范","p":"xué wéi rén shī, xíng wéi shì fàn","m":"học để làm thầy người, hành vi làm khuôn mẫu cho đời (câu nói về đạo đức nhà giáo)","c":"TC2-1d","t":"vocab","u":"","pt":"","s":""},{"h":"磨练","p":"móliàn","m":"rèn luyện","c":"TC2-1d","t":"vocab","u":"","pt":"","s":"艰苦的环境反而___了他坚强的意志。"},{"h":"经手","p":"","m":"qua tay, quản lý, phụ trách","c":"TC2-1d","t":"vocab","u":"","pt":"","s":"这个项目从头到尾都是他一个人___的。"},{"h":"咬牙切齿","p":"yǎoyáqièchǐ","m":"nghiếng răng nghiến lợi, cực kỳ phẫn nộ","c":"TC2-1d","t":"vocab","u":"","pt":"","s":"提起当年被骗的经历，他至今仍然___。"},{"h":"栖息","p":"qìxī","m":"đậu","c":"TC2-1e","t":"vocab","u":"","pt":"","s":"这片湿地是许多珍稀候鸟___繁殖的地方。"},{"h":"黎明","p":"límíng","m":"bình minh","c":"TC2-1e","t":"vocab","u":"","pt":"","s":"渔民们通常在___时分就出海打鱼了。"},{"h":"和睦","p":"hémù","m":"hoà thuận","c":"TC2-1e","t":"vocab","u":"","pt":"","s":"他们一家人相处得十分___，从不吵架。"},{"h":"征程","p":"zhēngchéng","m":"hành trình","c":"TC2-1e","t":"vocab","u":"","pt":"","s":"毕业典礼上，校长鼓励大家勇敢踏上人生的新___。"},{"h":"遭殃","p":"zāoyāng","m":"gặp hoạ","c":"TC2-1e","t":"vocab","u":"","pt":"","s":"这场突如其来的暴雨，让附近的农田都跟着___了。"},{"h":"灰烬","p":"huījìn","m":"tro tàn","c":"TC2-1e","t":"vocab","u":"","pt":"","s":"大火过后，房屋只剩下一片___。"},{"h":"窜","p":"cuàn","m":"chạy toán loạn","c":"TC2-1e","t":"vocab","u":"","pt":"","s":"受到惊吓的野兔一下子从草丛里___了出去。"},{"h":"干涸","p":"gānhé","m":"khô cạn","c":"TC2-1e","t":"vocab","u":"","pt":"","s":"由于长期干旱，这条河流已经完全___了。"},{"h":"偷窃","p":"tōuqiè","m":"ăn cắp, ăn trộm","c":"TC2-1e","t":"vocab","u":"","pt":"","s":"他因为___商店的商品被当场抓获。"},{"h":"枯萎","p":"kūwěi","m":"khô héo","c":"TC2-1e","t":"vocab","u":"","pt":"","s":"由于没有及时浇水，花园里的花都___了。"},{"h":"家畜","p":"jiāchù","m":"gia súc","c":"TC2-1e","t":"vocab","u":"","pt":"","s":""},{"h":"觅食","p":"mìshí","m":"kiếm ăn","c":"TC2-1e","t":"vocab","u":"","pt":"","s":"傍晚时分，鸟儿纷纷飞回巢穴，不再四处___。"},{"h":"峡谷","p":"xiágǔ","m":"hẻm núi, vực sâu","c":"TC2-1e","t":"vocab","u":"","pt":"","s":""},{"h":"红彤彤","p":"hóngtóngtóng","m":"đỏ rực, đỏ au","c":"TC2-1e","t":"vocab","u":"","pt":"","s":""},{"h":"打颤","p":"dǎzhàn","m":"phát run","c":"TC2-1e","t":"vocab","u":"","pt":"","s":""},{"h":"毒蛇猛兽","p":"dúshéměngshòu","m":"rắn độc thú dữ","c":"TC2-1e","t":"vocab","u":"","pt":"","s":""},{"h":"拯救","p":"zhěngjiù","m":"giải cứu","c":"TC2-1e","t":"vocab","u":"","pt":"","s":"医生们竭尽全力，终于___了这位病人的生命。"},{"h":"灼热","p":"zhuórè","m":"nóng như thiêu đốt","c":"TC2-1e","t":"vocab","u":"","pt":"","s":"沙漠中午的阳光十分___，让人几乎睁不开眼。"},{"h":"赐封","p":"cìfēng","m":"tặng phong","c":"TC2-1e","t":"vocab","u":"","pt":"","s":""},{"h":"曼藤","p":"màn téng","m":"cây dây leo","c":"TC2-1e","t":"vocab","u":"","pt":"","s":""},{"h":"盘旋","p":"pánxuán","m":"lượn vòng, bay vòng","c":"TC2-1e","t":"vocab","u":"","pt":"","s":"一群老鹰在山谷上空___了很久，寻找猎物。"},{"h":"老字号","p":"","m":"cửa hiệu lâu đời","c":"TC2-1e","t":"vocab","u":"","pt":"","s":"这家___的餐馆已经开了上百年了。"},{"h":"约束","p":"","m":"ràng buộc (quy tắc, chuẩn mực ràng buộc, kiểm soát hành vi của bản thân)","c":"TC2-1e","t":"vocab","u":"","pt":"","s":"校规校纪对学生的行为起到了一定的___作用。"},{"h":"束缚","p":"","m":"trói buộc, gò bó (tư tưởng, sự phát triển)","c":"TC2-1e","t":"vocab","u":"","pt":"","s":"过时的观念常常___着人们的思想和行为。"},{"h":"繁茂","p":"fánmào","m":"um tùm, sum suê","c":"TC2-1e","t":"vocab","u":"","pt":"","s":"夏天的树林里枝叶___，郁郁葱葱。"},{"h":"装点门面","p":"","m":"giữ thể diện, làm đẹp hình thức","c":"TC2-1e","t":"vocab","u":"","pt":"","s":"他花大价钱买名牌，只是为了___，其实生活并不宽裕。"},{"h":"通货膨胀","p":"péngzhàng","m":"lạm phát","c":"TC2-1e","t":"vocab","u":"","pt":"","s":"近年来物价不断上涨，主要是___造成的。"},{"h":"贬值","p":"bian3zhi2","m":"sụt giá, mất giá","c":"TC2-1e","t":"vocab","u":"","pt":"","s":"由于经济形势不稳定，这个国家的货币持续___。"},{"h":"名列前茅","p":"mínglièqiánmáo","m":"đứng đầu","c":"TC2-1e","t":"vocab","u":"","pt":"","s":"他从小学习成绩优异，一直在班上___。"},{"h":"无可非议","p":"","m":"không thể chê trách","c":"TC2-1e","t":"vocab","u":"","pt":"","s":"他这样处理问题，合情合理，实在___。"},{"h":"泛起","p":"","m":"nổi lên, xuất hiện","c":"TC2-1e","t":"vocab","u":"","pt":"","s":"回忆起往事，她的脸上不禁___一丝微笑。"},{"h":"泛起泪花","p":"","m":"ngân ngấn nước mắt","c":"TC2-1e","t":"vocab","u":"","pt":"","s":""},{"h":"莫逆之交","p":"mònìzhījiāo","m":"bạn tri kỷ, nối khố","c":"TC2-1e","t":"vocab","u":"","pt":"","s":"他们从小一起长大，是多年的___。"},{"h":"日新月异","p":"","m":"thay đổi từng ngày","c":"TC2-1e","t":"vocab","u":"","pt":"","s":"这座城市的发展___，短短几年就焕然一新。"},{"h":"细水长流","p":"","m":"nước chảy đá món","c":"TC2-1e","t":"vocab","u":"","pt":"","s":"感情要讲究___，不能只图一时的轰轰烈烈。"},{"h":"斤斤计较","p":"","m":"so đo tính toán","c":"TC2-1e","t":"vocab","u":"","pt":"","s":"他为人大方，从不和别人___。"},{"h":"置之度外","p":"","m":"không đếm xỉa","c":"TC2-1e","t":"vocab","u":"","pt":"","s":"为了完成任务，他早已把个人安危___。"},{"h":"芯片","p":"xīnpiàn","m":"chip","c":"TC2-1e","t":"vocab","u":"","pt":"","s":""},{"h":"脚踏实地","p":"","m":"làm việc đến nơi đến chốn","c":"TC2-1e","t":"vocab","u":"","pt":"","s":"成功没有捷径，只能一步一个脚印，___地努力。"},{"h":"唾沫","p":"tuòmo","m":"nước bọt","c":"TC2-1e","t":"vocab","u":"","pt":"","s":"他激动地讲了半天，急得嘴角都冒出了___。"},{"h":"撵","p":"niǎn","m":"đuổi","c":"TC2-1e","t":"vocab","u":"","pt":"","s":"老板发现他偷懒，气得当场把他___走了。"},{"h":"蘸","p":"zhàn","m":"chấm, nhúng","c":"TC2-1e","t":"vocab","u":"","pt":"","s":""},{"h":"窑洞","p":"yáodòng","m":"nhà hầm","c":"TC2-1e","t":"vocab","u":"","pt":"","s":""},{"h":"麻麻花花","p":"","m":"chằn chịt, hoa văn, đường nét lungtung","c":"TC2-1e","t":"vocab","u":"","pt":"","s":""},{"h":"挨家挨户","p":"āijiāāihù","m":"lần lượt từng nhà","c":"TC2-1e","t":"vocab","u":"","pt":"","s":"志愿者们___地上门，为老人们宣传防诈骗知识。"},{"h":"犁耙","p":"lí pá","m":"cày và bừa","c":"TC2-1e","t":"vocab","u":"","pt":"","s":""},{"h":"心肠","p":"xīncháng","m":"bụng dạ","c":"TC2-1e","t":"vocab","u":"","pt":"","s":"他表面看起来严厉，其实是个___很软的人。"},{"h":"马厩","p":"mǎjiù","m":"chuồng ngựa","c":"TC2-1e","t":"vocab","u":"","pt":"","s":""},{"h":"喧哗","p":"xuānhuá","m":"ồn ào, náo động","c":"TC2-1e","t":"vocab","u":"","pt":"","s":"图书馆里禁止大声___，请大家保持安静。"},{"h":"明晃晃","p":"mínghuǎnghuǎng","m":"sáng lấp lánh","c":"TC2-1e","t":"vocab","u":"","pt":"","s":"阳光___地照在湖面上，波光粼粼。"},{"h":"喷","p":"pēn","m":"phun","c":"TC2-1e","t":"vocab","u":"","pt":"","s":""},{"h":"木炭","p":"mùtàn","m":"than củi","c":"TC2-1e","t":"vocab","u":"","pt":"","s":""},{"h":"老鹰","p":"lǎoyīng","m":"chim ưng","c":"TC2-1e","t":"vocab","u":"","pt":"","s":""},{"h":"松鼠","p":"sōngshǔ","m":"con sóc","c":"TC2-1e","t":"vocab","u":"","pt":"","s":"公园里的___在树枝间跳来跳去，十分可爱。"},{"h":"小瞧","p":"xiǎoqiáo","m":"coi thường","c":"TC2-1e","t":"vocab","u":"","pt":"","s":"别___了他，他其实很有实力。"},{"h":"彩排","p":"cǎipái","m":"diễn tập","c":"TC2-1e","t":"vocab","u":"","pt":"","s":"演出正式开始前，演员们都要认真进行___。"},{"h":"直播","p":"zhíbō","m":"livestream","c":"TC2-1e","t":"vocab","u":"","pt":"","s":"很多年轻人现在喜欢通过___购物、看新闻。"},{"h":"树老根多，人老话多","p":"shù lǎo gēn duō, rén lǎo huà duō","m":"cây già nhiều rễ, người già nhiều lời (tục ngữ)","c":"TC2-1e","t":"vocab","u":"","pt":"","s":""},{"h":"扎堆","p":"zhāduī","m":"tụ tập","c":"TC2-1e","t":"vocab","u":"","pt":"","s":"下班高峰期，人们都___在地铁站门口。"},{"h":"抒发感情","p":"shūfā","m":"bày tỏ tình cảm","c":"TC2-1e","t":"vocab","u":"","pt":"","s":"诗人常常通过写作来___。"},{"h":"长势","p":"zhǎngshì","m":"tình hình sinh trưởng","c":"TC2-1e","t":"vocab","u":"","pt":"","s":"今年雨水充足，庄稼的___非常好。"},{"h":"郁郁葱葱","p":"","m":"xanh tươi um tùm","c":"TC2-1e","t":"vocab","u":"","pt":"","s":"山上的树林一片___，非常茂盛。"},{"h":"忠厚","p":"zhōnghòu","m":"thật thà, hiền lành","c":"TC2-1e","t":"vocab","u":"","pt":"","s":"他为人___，从不占别人的便宜。"},{"h":"狠毒","p":"hěndú","m":"ác độc","c":"TC2-1e","t":"vocab","u":"","pt":"","s":"这个反派角色手段十分___，让观众恨得咬牙切齿。"},{"h":"嫂子","p":"sǎozi","m":"chị dâu","c":"TC2-1e","t":"vocab","u":"","pt":"","s":""},{"h":"捆","p":"kǔn","m":"bó, mớ","c":"TC2-1e","t":"vocab","u":"","pt":"","s":""},{"h":"贬","p":"bian3","m":"hạ, giáng","c":"TC2-1e","t":"vocab","u":"","pt":"","s":""},{"h":"动弹","p":"dòngtan","m":"động đậy, cựa quậy","c":"TC2-1e","t":"vocab","u":"","pt":"","s":""},{"h":"花露水","p":"","m":"dầu thơm","c":"TC2-1e","t":"vocab","u":"","pt":"","s":""},{"h":"乞求","p":"qǐqiú","m":"cầu xin, van  lạy","c":"TC2-1e","t":"vocab","u":"","pt":"","s":""},{"h":"乞丐","p":"qǐgài","m":"ăn mày","c":"TC2-1e","t":"vocab","u":"","pt":"","s":""},{"h":"心灵手巧","p":"xīnlíngshǒuqiǎo","m":"thông minh nhanh nhẹ","c":"TC2-1e","t":"vocab","u":"","pt":"","s":"她从小就___，做出的手工艺品十分精美。"},{"h":"称心如意","p":"","m":"chènxīnrúyì: như ý nguyện","c":"TC2-1e","t":"vocab","u":"","pt":"","s":"经过多年努力，他终于找到了一份___的工作。"},{"h":"喜鹊","p":"xǐquē","m":"chim hỷ thước","c":"TC2-1e","t":"vocab","u":"","pt":"","s":""},{"h":"波涛汹涌","p":"","m":"bōtāoxiōngyǒng: sóng to gió lớn","c":"TC2-1e","t":"vocab","u":"","pt":"","s":""},{"h":"腾云驾雾","p":"téngyúnjiàwù","m":"cưỡi mây đạp gió","c":"TC2-1e","t":"vocab","u":"","pt":"","s":""},{"h":"绸缎","p":"chóuduàn","m":"tơ lụa","c":"TC2-1e","t":"vocab","u":"","pt":"","s":""},{"h":"丝绸之路","p":"sīchóu zhī lù","m":"con đường tơ lụa","c":"TC2-1e","t":"vocab","u":"","pt":"","s":""},{"h":"恼羞成怒","p":"nǎoxiūchéngnù","m":"thẹn quá hoá giận","c":"TC2-1e","t":"vocab","u":"","pt":"","s":"输了比赛还被对方嘲笑，他一时___，大发脾气。"},{"h":"蚕","p":"cán","m":"con tằm","c":"TC2-1e","t":"vocab","u":"","pt":"","s":""},{"h":"诸 = 各个","p":"zhū","m":"mỗi, các (văn viết trang trọng)","c":"TC2-1e","t":"grammar","u":"Dùng trong văn viết trang trọng thay cho 各个/各种. VD: 诸位请注意 (Kính mời các vị chú ý).","pt":"诸 = 各个","s":""},{"h":"刁难","p":"diāonàn","m":"gây khó dễ, hạch sách","c":"TC2-1e","t":"vocab","u":"","pt":"","s":"面试官故意提出一些棘手的问题来___应聘者。"},{"h":"花前月下","p":"","m":"khung cảnh lãng mạn dưới ánh trăng","c":"TC2-1e","t":"vocab","u":"","pt":"","s":"两人经常在公园散步，享受___的浪漫时光。"}];
+const CAT_LABELS = {'TC2-1':'Phần 1','TC2-1b':'Phần 2','TC2-1c':'Phần 3','TC2-1d':'Phần 4','TC2-1e':'Phần 5'};
+
+/* ---------------- storage / progress ---------------- */
+let mastered = new Set();
+async function loadProgress(){
+  try{
+    const res = await window.storage.get('hsk6-mastered');
+    if(res && res.value){
+      mastered = new Set(JSON.parse(res.value));
+    }
+  }catch(e){ /* no data yet */ }
+  refreshProgressUI();
+}
+async function saveProgress(){
+  try{ await window.storage.set('hsk6-mastered', JSON.stringify([...mastered])); }catch(e){}
+}
+function idOf(item){ return item.h + '|' + item.m; }
+function isMastered(item){ return mastered.has(idOf(item)); }
+function toggleMastered(item, forceValue){
+  const id = idOf(item);
+  const next = (forceValue === undefined) ? !mastered.has(id) : forceValue;
+  if(next) mastered.add(id); else mastered.delete(id);
+  saveProgress();
+  refreshProgressUI();
+}
+function refreshProgressUI(){
+  const total = VOCAB.length;
+  const done = mastered.size;
+  const pct = total ? Math.round(done/total*100) : 0;
+  document.getElementById('masteredCount').textContent = done;
+  document.getElementById('totalCount').textContent = total;
+  document.getElementById('totalHeaderCount').textContent = total;
+  document.getElementById('progressPct').textContent = pct + '%';
+  document.getElementById('progressRing').style.setProperty('--pct', pct);
+  renderWordList();
+}
+
+/* ---------------- tabs ---------------- */
+document.querySelectorAll('.tab-btn').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+    document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('panel-'+btn.dataset.tab).classList.add('active');
+    if(btn.dataset.tab==='flash') startFlashDeck();
+  });
+});
+
+/* ---------------- STUDY LIST ---------------- */
+let currentCat = 'all';
+let searchTerm = '';
+document.getElementById('catFilter').addEventListener('click', e=>{
+  const b = e.target.closest('button'); if(!b) return;
+  document.querySelectorAll('#catFilter button').forEach(x=>x.classList.remove('active'));
+  b.classList.add('active');
+  currentCat = b.dataset.cat;
+  renderWordList();
+});
+document.getElementById('searchInput').addEventListener('input', e=>{
+  searchTerm = e.target.value.trim().toLowerCase();
+  renderWordList();
+});
+
+function renderWordList(){
+  const list = document.getElementById('wordList');
+  let items = VOCAB.filter(it=>it.t==='vocab');
+  if(currentCat==='mastered'){
+    items = items.filter(it=>isMastered(it));
+  } else if(currentCat!=='all'){
+    items = items.filter(it=>it.c===currentCat);
+  }
+  if(searchTerm){
+    items = items.filter(it=>
+      it.h.toLowerCase().includes(searchTerm) ||
+      it.p.toLowerCase().includes(searchTerm) ||
+      it.m.toLowerCase().includes(searchTerm)
+    );
+  }
+  if(items.length===0){
+    list.innerHTML = '<div class="empty-note">Không tìm thấy từ phù hợp.</div>';
+    return;
+  }
+  list.innerHTML = items.map(it=>{
+    const m = isMastered(it);
+    return `<div class="word-row ${m?'mastered':''}" data-id="${idOf(it).replace(/"/g,'&quot;')}">
+      <div class="hz">${it.h}</div>
+      <div class="py">${it.p||'—'}</div>
+      <div class="mn">${it.m}</div>
+      <span class="cat-tag">${CAT_LABELS[it.c]||it.c}</span>
+      <svg class="mstar" viewBox="0 0 24 24" fill="${m?'#4F7A68':'none'}" stroke="#4F7A68" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+    </div>`;
+  }).join('');
+  list.querySelectorAll('.word-row').forEach((row,i)=>{
+    row.addEventListener('click', ()=>openModal(items[i]));
+  });
+}
+
+/* modal */
+let modalItem = null;
+function openModal(it){
+  modalItem = it;
+  document.getElementById('modalHz').textContent = it.h;
+  document.getElementById('modalPy').textContent = it.p || '';
+  document.getElementById('modalMn').textContent = it.m;
+  const btn = document.getElementById('modalToggle');
+  const m = isMastered(it);
+  btn.textContent = m ? '✓ Đã thuộc' : 'Đánh dấu đã thuộc';
+  btn.classList.toggle('on', m);
+  document.getElementById('modalBg').classList.add('show');
+}
+document.getElementById('modalClose').addEventListener('click', ()=>document.getElementById('modalBg').classList.remove('show'));
+document.getElementById('modalBg').addEventListener('click', e=>{ if(e.target.id==='modalBg') document.getElementById('modalBg').classList.remove('show'); });
+document.getElementById('modalToggle').addEventListener('click', ()=>{
+  if(!modalItem) return;
+  toggleMastered(modalItem);
+  const m = isMastered(modalItem);
+  const btn = document.getElementById('modalToggle');
+  btn.textContent = m ? '✓ Đã thuộc' : 'Đánh dấu đã thuộc';
+  btn.classList.toggle('on', m);
+});
+
+/* ---------------- FLASHCARDS ---------------- */
+let fcDeck = 'all';
+let fcQueue = [];
+let fcIndex = 0;
+let fcFlipped = false;
+let fcKnownCount = 0;
+
+document.getElementById('fcDeckSelect').addEventListener('click', e=>{
+  const b = e.target.closest('button'); if(!b) return;
+  document.querySelectorAll('#fcDeckSelect button').forEach(x=>x.classList.remove('active'));
+  b.classList.add('active');
+  fcDeck = b.dataset.deck;
+  startFlashDeck();
+});
+
+function buildDeck(){
+  let items = VOCAB.filter(it=>it.t==='vocab');
+  if(fcDeck==='unmastered') items = items.filter(it=>!isMastered(it));
+  else if(fcDeck!=='all') items = items.filter(it=>it.c===fcDeck);
+  // shuffle
+  for(let i=items.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [items[i],items[j]] = [items[j],items[i]];
+  }
+  return items;
+}
+function startFlashDeck(){
+  fcQueue = buildDeck();
+  fcIndex = 0; fcKnownCount = 0; fcFlipped = false;
+  document.getElementById('fcCount').textContent = fcQueue.length + ' thẻ';
+  renderFlashcard();
+}
+function renderFlashcard(){
+  const area = document.getElementById('fcCardArea');
+  const bar = document.getElementById('fcBar');
+  if(fcQueue.length===0){
+    area.innerHTML = '<div class="fc-done"><div class="zh-big">空</div><p>Không có thẻ nào trong bộ này.</p></div>';
+    bar.style.width='0%';
+    return;
+  }
+  if(fcIndex >= fcQueue.length){
+    bar.style.width='100%';
+    area.innerHTML = `<div class="fc-done">
+      <div class="zh-big">完</div>
+      <p>Bạn đã ôn xong ${fcQueue.length} thẻ · Nhớ ${fcKnownCount} / ${fcQueue.length}</p>
+      <button id="fcRestart">Ôn lại bộ này</button>
+    </div>`;
+    document.getElementById('fcRestart').addEventListener('click', startFlashDeck);
+    return;
+  }
+  bar.style.width = Math.round(fcIndex/fcQueue.length*100)+'%';
+  const it = fcQueue[fcIndex];
+  fcFlipped = false;
+  area.innerHTML = `
+    <div class="card-scene">
+      <div class="flashcard" id="flashcardEl">
+        <div class="face front">
+          <div class="hz">${it.h}</div>
+          <div class="py">${it.p||''}</div>
+          <div class="hint">Chạm để lật thẻ</div>
+        </div>
+        <div class="face back">
+          <svg class="seal-stamp" id="sealStamp" viewBox="0 0 100 100">
+            <rect x="6" y="6" width="88" height="88" rx="10" fill="#AF2530" stroke="#F4E9D8" stroke-width="2"/>
+            <text x="50" y="60" font-family="Noto Serif SC, serif" font-size="34" font-weight="900" fill="#F4E9D8" text-anchor="middle">记</text>
+          </svg>
+          <div class="py2">${it.p||''}</div>
+          <div class="mn">${it.m}</div>
+          <div class="hz-small">${it.h}</div>
+        </div>
+      </div>
+    </div>
+    <div class="fc-actions" style="margin-top:22px;">
+      <button class="btn-forget" id="btnForget">✕ Chưa nhớ</button>
+      <button class="btn-know" id="btnKnow">✓ Đã nhớ</button>
+    </div>
+  `;
+  document.getElementById('flashcardEl').addEventListener('click', ()=>{
+    fcFlipped = !fcFlipped;
+    document.getElementById('flashcardEl').classList.toggle('flipped', fcFlipped);
+  });
+  document.getElementById('btnForget').addEventListener('click', (e)=>{
+    e.stopPropagation();
+    toggleMastered(it, false);
+    nextFlashcard();
+  });
+  document.getElementById('btnKnow').addEventListener('click', (e)=>{
+    e.stopPropagation();
+    fcKnownCount++;
+    toggleMastered(it, true);
+    const stamp = document.getElementById('sealStamp');
+    if(!fcFlipped){
+      fcFlipped = true;
+      document.getElementById('flashcardEl').classList.add('flipped');
+      setTimeout(()=>{ stamp.classList.add('show'); }, 260);
+      setTimeout(nextFlashcard, 900);
+    } else {
+      stamp.classList.add('show');
+      setTimeout(nextFlashcard, 650);
+    }
+  });
+}
+function nextFlashcard(){
+  fcIndex++;
+  renderFlashcard();
+}
+
+/* ---------------- GRAMMAR ---------------- */
+function renderGrammar(){
+  const items = VOCAB.filter(it=>it.t==='grammar');
+  const list = document.getElementById('grammarList');
+  list.innerHTML = items.map(it=>`
+    <div class="g-card">
+      <div class="pattern">${it.pt || it.h}</div>
+      <div class="py">${it.p||''}</div>
+      <div class="meaning">${it.m}</div>
+      ${it.u ? `<div class="usage">${it.u}</div>` : ''}
+    </div>
+  `).join('');
+}
+
+/* ---------------- QUIZ ---------------- */
+let quizLen = 10;
+let quizMode = 'mixed';
+let quizItems = [];
+let quizIdx = 0;
+let quizScore = 0;
+let quizAnswered = false;
+let quizReview = [];
+
+function renderQuizSetup(){
+  const area = document.getElementById('quizArea');
+  area.innerHTML = `
+    <div class="quiz-setup">
+      <h2>练习 · Bài tập ôn kiến thức</h2>
+      <p>Chọn số câu và bắt đầu làm bài trắc nghiệm về từ vựng &amp; mẫu câu HSK6.</p>
+      <div class="quiz-len" id="quizLenGroup">
+        <button data-n="10" class="active">10 câu</button>
+        <button data-n="20">20 câu</button>
+        <button data-n="30">30 câu</button>
+      </div>
+      <div class="quiz-mode" id="quizModeGroup">
+        <button data-mode="mixed" class="active">Trộn cả hai</button>
+        <button data-mode="meaning">Nghĩa của từ</button>
+        <button data-mode="fill">Điền vào chỗ trống</button>
+      </div>
+      <button class="quiz-start-btn" id="quizStartBtn">Bắt đầu làm bài</button>
+    </div>
+  `;
+  document.getElementById('quizLenGroup').addEventListener('click', e=>{
+    const b = e.target.closest('button'); if(!b) return;
+    document.querySelectorAll('#quizLenGroup button').forEach(x=>x.classList.remove('active'));
+    b.classList.add('active');
+    quizLen = parseInt(b.dataset.n,10);
+  });
+  document.getElementById('quizModeGroup').addEventListener('click', e=>{
+    const b = e.target.closest('button'); if(!b) return;
+    document.querySelectorAll('#quizModeGroup button').forEach(x=>x.classList.remove('active'));
+    b.classList.add('active');
+    quizMode = b.dataset.mode;
+  });
+  document.getElementById('quizStartBtn').addEventListener('click', startQuiz);
+}
+
+function shuffle(arr){
+  const a = arr.slice();
+  for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; }
+  return a;
+}
+
+function startQuiz(){
+  const fillPool = VOCAB.filter(it=>it.s);
+  let n = Math.min(quizLen, VOCAB.length);
+  quizItems = [];
+
+  if(quizMode === 'fill'){
+    const chosen = shuffle(fillPool).slice(0, Math.min(n, fillPool.length));
+    quizItems = chosen.map(it=>buildFillQuestion(it));
+  } else if(quizMode === 'meaning'){
+    const chosen = shuffle(VOCAB).slice(0, n);
+    quizItems = chosen.map(it=>buildMeaningQuestion(it));
+  } else {
+    // mixed: half fill (if available), half meaning
+    const fillCount = Math.min(Math.floor(n/2), fillPool.length);
+    const meaningCount = n - fillCount;
+    const fillChosen = shuffle(fillPool).slice(0, fillCount).map(it=>buildFillQuestion(it));
+    const meaningChosen = shuffle(VOCAB).slice(0, meaningCount).map(it=>buildMeaningQuestion(it));
+    quizItems = shuffle([...fillChosen, ...meaningChosen]);
+  }
+
+  quizIdx = 0; quizScore = 0; quizAnswered = false; quizReview = [];
+  renderQuizQuestion();
+}
+
+function buildMeaningQuestion(it){
+  const mode = Math.random() < 0.5 ? 'h2m' : 'm2h';
+  const distractorPool = VOCAB.filter(x=>x.m!==it.m && x.h!==it.h);
+  const distractors = shuffle(distractorPool).slice(0,3);
+  const options = shuffle([it, ...distractors]);
+  return { qtype:'meaning', item: it, mode, options };
+}
+
+function buildFillQuestion(it){
+  const distractorPool = VOCAB.filter(x=>x.h!==it.h && x.t==='vocab');
+  const distractors = shuffle(distractorPool).slice(0,3);
+  const options = shuffle([it, ...distractors]);
+  return { qtype:'fill', item: it, options };
+}
+
+function renderQuizQuestion(){
+  const area = document.getElementById('quizArea');
+  if(quizIdx >= quizItems.length){
+    renderQuizResult();
+    return;
+  }
+  const q = quizItems[quizIdx];
+  quizAnswered = false;
+  const pct = Math.round(quizIdx/quizItems.length*100);
+
+  let questionHtml = '';
+  if(q.qtype === 'fill'){
+    const sentenceHtml = q.item.s.replace('___', '<span class="blank">＿＿＿</span>');
+    questionHtml = `
+      <div class="q-label">Điền từ thích hợp vào chỗ trống</div>
+      <div class="q-sentence">${sentenceHtml}</div>
+    `;
+  } else {
+    const isH2M = q.mode==='h2m';
+    questionHtml = `
+      <div class="q-label">${isH2M ? 'Từ này có nghĩa là gì?' : 'Từ nào có nghĩa dưới đây?'}</div>
+      <div class="q-main ${isH2M?'':'small'}">${isH2M ? q.item.h : q.item.m}</div>
+      ${isH2M && q.item.p ? `<div class="q-sub">${q.item.p}</div>` : ''}
+    `;
+  }
+
+  area.innerHTML = `
+    <div class="quiz-head">
+      <div class="qcount">Câu ${quizIdx+1} / ${quizItems.length}</div>
+      <div class="qscore">Đúng: ${quizScore}</div>
+    </div>
+    <div class="quiz-bar"><i style="width:${pct}%"></i></div>
+    <div class="q-box">${questionHtml}</div>
+    <div class="q-options" id="qOptions"></div>
+  `;
+  const optWrap = document.getElementById('qOptions');
+
+  if(q.qtype === 'fill'){
+    optWrap.innerHTML = q.options.map((opt,i)=>{
+      return `<button class="q-opt" data-idx="${i}"><span class="hz-opt">${opt.h}</span><div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--gold);margin-top:4px;">${opt.p||''}</div></button>`;
+    }).join('');
+  } else {
+    const isH2M = q.mode==='h2m';
+    optWrap.innerHTML = q.options.map((opt,i)=>{
+      const label = isH2M ? opt.m : opt.h;
+      const extra = (!isH2M && opt.p) ? `<div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--gold);margin-top:4px;">${opt.p}</div>` : '';
+      return `<button class="q-opt" data-idx="${i}"><span class="${isH2M?'':'hz-opt'}">${label}</span>${extra}</button>`;
+    }).join('');
+  }
+
+  optWrap.querySelectorAll('.q-opt').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      if(quizAnswered) return;
+      quizAnswered = true;
+      const chosen = q.options[parseInt(btn.dataset.idx,10)];
+      const correct = chosen.h===q.item.h && chosen.m===q.item.m;
+      if(correct) quizScore++;
+      else quizReview.push(q.item);
+      optWrap.querySelectorAll('.q-opt').forEach((b2,i2)=>{
+        b2.classList.add('disabled');
+        const o2 = q.options[i2];
+        const isCorrectOpt = o2.h===q.item.h && o2.m===q.item.m;
+        if(isCorrectOpt) b2.classList.add('correct');
+        else if(b2===btn) b2.classList.add('wrong');
+        else b2.classList.add('dim');
+      });
+      setTimeout(()=>{ quizIdx++; renderQuizQuestion(); }, 850);
+    });
+  });
+}
+
+function renderQuizResult(){
+  const area = document.getElementById('quizArea');
+  const total = quizItems.length;
+  const pct = total ? Math.round(quizScore/total*100) : 0;
+  area.innerHTML = `
+    <div class="quiz-result">
+      <div class="score-big">${quizScore}/${total}</div>
+      <div class="score-label">Bạn đã đúng ${pct}% · ${pct>=80?'Xuất sắc! 👏':pct>=50?'Khá tốt, cố lên nhé!':'Cần ôn lại thêm nha!'}</div>
+      ${quizReview.length ? `<div class="review-list">${quizReview.map(it=>`<div class="review-item miss"><span>${it.h} (${it.p||''})</span><span>${it.m}</span></div>`).join('')}</div>` : ''}
+      <button id="quizRetry">Làm bài mới</button>
+    </div>
+  `;
+  document.getElementById('quizRetry').addEventListener('click', renderQuizSetup);
+}
+
+/* ---------------- init ---------------- */
+loadProgress();
+renderGrammar();
+renderQuizSetup();
+</script>
+</body>
+</html>
